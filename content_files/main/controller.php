@@ -5,6 +5,7 @@ class controller extends \mvc\controller
 {
 	function _route()
 	{
+		$this->model()->test();
 		$mymodule = $this->module();
 		$mychild	 = $this->child();
 
