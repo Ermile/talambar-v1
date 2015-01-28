@@ -7,11 +7,11 @@ class view extends \lib\view
 	{
 		// define default value for global
 
-		$this->data->site['title']   = T_("Ermile");
-		$this->data->site['desc']    = T_("Ermile is new");
-		$this->data->site['slogan']  = T_("Ermile is our company");
+		$this->data->site['title']   = T_("Talambar");
+		$this->data->site['desc']    = T_("Talambar is new");
+		$this->data->site['slogan']  = T_("Talambar is our project");
 
-		$this->data->page['desc']    = T_("Ermile is Inteligent.");
+		$this->data->page['desc']    = T_("Talambar is Inteligent.");
 
 		// add language list for use in display
 		$this->global->langlist		= array(

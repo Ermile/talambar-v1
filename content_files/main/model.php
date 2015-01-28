@@ -19,10 +19,10 @@ class model extends \mvc\model
 
 	public function test()
 	{
-		// var_dump($this->login('id'));
+		var_dump($this->login('id'));
 		// 
 		// 
-		// $tmp_table = $this->sql()->tableAttachments()->whereUser_id(190)->select();
+		$tmp_table = $this->sql()->tableAttachments()->whereUser_id(190)->select();
 		// var_dump($tmp_table);
 		// var_dump($tmp_table->string());
 
