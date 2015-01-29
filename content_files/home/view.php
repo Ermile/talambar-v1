@@ -1,11 +1,14 @@
 <?php
 namespace content_files\home;
 
-class view extends \content_files\main\view
+class view extends \mvc\view
 {
 	public function config()
 	{
-		$this->data->list 	= $this->cpModlueList('all');
+		$this->data->list      = $this->model()->directories();;
+		// var_dump($this->data->list);
+		$this->data->bodyclass = 'fixed';
+		$this->include->js     = false;
 	}
 }
 ?>

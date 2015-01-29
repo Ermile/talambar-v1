@@ -1,18 +1,40 @@
-{%extends display.files%}
+{%extends display.mvc%}
+
+
+{%block head_css%}
+ <link rel="stylesheet"    href="{{url.static}}css/style-files.css">
+{%endblock%}
 
 {%block content_def%}
 <div data-xhr="content_def" class="container" id="main">
-  {%if global.page_title%}
-  <h1>{{global.page_title}}</h1><hr />{%endif%}
-	<p class="alert alert-block alert-success">
-	<a class="float-left" href="{{url.root}}logout">{%trans "Logout"%}</a>|
-	<a class="float-right" href="{{url.root}}" target="_blank">{%trans "Home"%}</a></p>
-	<ul>
-		{% for i in list %}
-			<li>
-				<a href="{{store}}/{{i}}">{% trans i %}</a>
-			</li>
-	    {% endfor %}
-	</ul>
+
+ <div class="filemanager">
+
+  <div class="search">
+   <input type="search" placeholder="Find a file.." />
+  </div>
+
+  <div class="breadcrumbs"></div>
+
+  <ul class="data animated">
+{% for key, value in list %}
+   <li class="{{value.model}}s">
+    <a href="{{key}}" title="files/123" class="{{value.model}}s">
+     <span class="icon {{value.model}} f-{{value.type}}"></span>
+     <span class="name">{{key}}</span> 
+     <span class="details">{{value.count}}</span>
+    </a>
+   </li>
+{% endfor %}
+  </ul>
+
+
+  <div class="nothingfound">
+   <div class="nofiles"></div>
+   <span>No files here.</span>
+  </div>
+
+ </div>
+
 </div>
 {%endblock%}
