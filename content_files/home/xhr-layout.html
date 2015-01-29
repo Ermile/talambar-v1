@@ -1,83 +1,44 @@
-{% import macro.forms as forms %}
-
-
 
 {%block content_def%}
-<div data-xhr="content_def">
+<div data-xhr="content_def" class="container" id="main">
 
-{%if child%}
- <div id="options" class="unselectable">
-  <div id="options-meta" class="disappear">
-{% for key, value in field_list if value.form%}
+ <ul class="breadcrumb">
+  <li><a href="/">{%trans "Home"%}</a></li>
+{%for value in location %}
+  <li><a href="">{{value}}</a></li>
+{%endfor%}
+ </ul>
 
-   <label class="label-custom"><input class="fields-toggle" type="checkbox" name="{{key}}" value="{{key}}" {%if value%}checked="checked"{%endif%}><span>{{value.name}}</span></label>
-{% endfor %}
+
+
+
+ <div class="filemanager">
+
+  <div class="search">
+   <input type="search" placeholder="Find a file.." />
   </div>
-  <a id="options-link" href="javascript: void(0)">{%trans%}Options{%endtrans%}</a>
- </div>
-{%endif%}
- <div class="container" id="main">
- {%if page_title%}
- <h1>{%trans page_title %}</h1><hr />{%endif%}
- {%if module and module!="home"%}
-  {%if child%}
-  <p class="alert alert-block alert-info">
-   <attr class="float-left">{%trans module%}</attr>|
-   <a class="float-right" href="{{store}}/{{module}}">{%trans%}Go to{%endtrans%} {%trans module%}</a>
-  </p>
-   <form class="ajx" method="post">{{forms.make(form[module])}}</form>
-  {%else%}
-  <p class="alert alert-block alert-info">
-   <a class="float-left" href="{{store}}/{{module}}/add">{%trans%}Add New Record{%endtrans%}</a>|
-   <a class="float-right" href="/">{%trans "Home"%}</a>
-  </p>
 
-   {%block datatable%}
-    {%if include.datatable%}
-    <table class="datatable display">
-     <thead>
-     <tr>
-      <th class="column_row">#</th>
-{%for value in columns if value.table%}
-      <th>{{value.name}}</th>
-{%endfor%}
-      <th class="column_actions">{%trans "Actions"%}</th>
-     </tr>
-     </thead>
+  <div class="breadcrumbs"></div>
 
-     <tbody>
-      {%block tbody%}
-{%for d in datatable%}
-      <tr class="{{ cycle(['odd', 'even'], loop.index0) }}">
-       <td class="col_row">{{loop.index}}</td>
-{%for col,value in columns if value.table%}
-{%set myvalue = attribute(d,col)%}
-{% if not myvalue or value.value == 'slug' or value.value == 'title'%}
-       <td class="col_{{value.value}}">{{myvalue}}</td>
-{%else%}
-       <td class="col_{{value.value}}">{%trans myvalue%}</td>
-{%endif%}
-{%endfor%}
-       <td class="col_actions">
-       <span class="hint--top hint--info" data-hint='{%trans "Edit"%}'>
-        <a class="action-icons edit hint--top" href="{{store}}/{{module}}/edit={{d.id}}">{%trans "Edit"%}</a>
-       </span>
-       <span class="hint--top hint--error" data-hint='{%trans "Delete"%}'>
-        <a class="action-icons delete hide-text" href="{{store}}/{{module}}/delete={{d.id}}" data-ajaxify data-method="post" data-data="{id:{{d.id}}}">{%trans "Delete"%}</a>
-       </span>
-       </td>
-      </tr>
-{%endfor%}
-      {%endblock%}
-     </tbody>
-    </table>
-    {%else%}
-    Data not exist!
-    {%endif%}
-   {%endblock%}
-  {%endif%}
- {%endif%}
+  <ul class="data animated">
+{% for key, value in list %}
+   <li class="{{value.model}}s">
+    <a href="{{url.path}}/{{key}}" title="files/123" class="{{value.model}}s">
+     <span class="icon {{value.model}} f-{{value.type}}"></span>
+     <span class="name">{{key}}</span> 
+     <span class="details">{{value.count}}</span>
+    </a>
+   </li>
+{% endfor %}
+  </ul>
+
+
+  <div class="nothingfound">
+   <div class="nofiles"></div>
+   <span>No files here.</span>
+  </div>
 
  </div>
+
 </div>
 {%endblock%}

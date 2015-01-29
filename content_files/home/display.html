@@ -8,6 +8,16 @@
 {%block content_def%}
 <div data-xhr="content_def" class="container" id="main">
 
+ <ul class="breadcrumb">
+  <li><a href="/">{%trans "Home"%}</a></li>
+{%for value in location %}
+  <li><a href="">{{value}}</a></li>
+{%endfor%}
+ </ul>
+
+
+
+
  <div class="filemanager">
 
   <div class="search">
@@ -19,7 +29,7 @@
   <ul class="data animated">
 {% for key, value in list %}
    <li class="{{value.model}}s">
-    <a href="{{key}}" title="files/123" class="{{value.model}}s">
+    <a href="{{url.path}}/{{key}}" title="files/123" class="{{value.model}}s">
      <span class="icon {{value.model}} f-{{value.type}}"></span>
      <span class="name">{{key}}</span> 
      <span class="details">{{value.count}}</span>

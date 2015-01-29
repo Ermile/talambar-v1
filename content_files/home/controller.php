@@ -8,7 +8,8 @@ class controller extends \mvc\controller
 		$mymodule = $this->module();
 		$mychild	 = $this->child();
 
-		// $this->get(null, 'datatable')->ALL();
+		// show all data on this subdomain
+		$this->get()->ALL();
 	}
 }
 ?>
