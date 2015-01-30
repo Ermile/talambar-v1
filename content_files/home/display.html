@@ -24,10 +24,10 @@
    <input type="search" placeholder="Find a file.." />
   </div>
 
-  <div class="breadcrumbs"></div>
 
   <ul class="data animated">
 {% for key, value in list %}
+
    <li class="{{value.model}}s">
     <a href="{{url.path}}/{{key}}" title="files/123" class="{{value.model}}s">
      <span class="icon {{value.model}} f-{{value.type}}"></span>

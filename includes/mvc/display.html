@@ -41,12 +41,12 @@
     <nav>
      <div id="header-nav">
       <a href="{{url.root}}">{%trans "Home Page"%}</a>
-      <a href="http://files.{{url.raw}}">{%trans "Admin"%}</a>
+      <a href="http://files.{{url.raw}}">{%trans "Files"%}</a>
       <a href="http://cp.{{url.raw}}">{%trans "Control Panel"%}</a>
 {%if global.login%}
-      <a href="{{url.LoginService}}/logout?referer=talambar">{%trans "Logout"%}</a>
+      <a href="{{url.LoginService}}/logout">{%trans "Logout"%}</a>
 {%else%}
-      <a href="{{url.LoginService}}/login?referer=talambar">{%trans "Login"%}</a>
+      <a href="{{url.LoginService}}/login">{%trans "Login"%}</a>
 {%endif%}
      </div>
     </nav>
