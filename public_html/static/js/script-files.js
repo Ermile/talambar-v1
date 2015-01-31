@@ -6,6 +6,33 @@ $(function(){
 
 	// Start by fetching the file data from scan.php with an AJAX request
 
+	var fm;
+
+	$('#upload').click(function() {
+		fm = new FileManager({
+			file: $('#file_input').get(0).files[0],
+			ajax: {
+	      type: 'post',
+	      contentType: false,
+	      processData: false,
+	      dataType: 'text',
+	      mimeType: 'text/plain',
+	      url: 'http://localhost/'
+	    },
+		});
+
+		fm.upload();
+	});
+
+	$('#resume').click(function() {
+		fm.resume();
+	});
+
+	$('#pause').click(function() {
+		fm.pause();
+	});
+
+
 	$.get('scan.php', function(data) {
 
 		var response = [data],
