@@ -23,8 +23,14 @@
   <div class="search">
    <input type="search" placeholder="Find a file.." />
   </div>
+<form action="" method="post">
+	<input type="text" name="folder" placeholder="{% trans "folder"%}">
+	<input type="submit" name="" value="{%trans "sumbit"%}">
+</form>
 
-
+  {%if list|length == 0 %}
+  	{%trans "empty"%}
+  {%endif%}
   <ul class="data animated">
 {% for key, value in list %}
 
