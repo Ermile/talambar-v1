@@ -12,6 +12,7 @@ class view extends \mvc\view
 		// var_dump($this->data->location);
 
 		$this->data->list      = $this->model()->directories($this->data->location);
+
 		// var_dump($this->data->list);
 	}
 }
