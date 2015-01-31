@@ -1,7 +1,7 @@
 <?php
 namespace content_files\home;
 use \lib\debug;
-
+use \lib\utility;
 class model extends \mvc\model
 {
 	public function directories($_location = null)
@@ -12,47 +12,45 @@ class model extends \mvc\model
 
 		// $myid = $this->login('id');
 		$myid = 190;
-
+		$location = "/".join("/", $_location);
 		// create query for get by folders name and ordered by depth
-		$qry   = $this->sql()->tableAttachments()->whereUser_id($myid)->group('open');
-		$field = null;
-		foreach ($_location as $value)
-		{
-			$field = (is_null($field)? 'and': 'or' ). 'Attachment_title';
-			$qry   = $qry->$field($value);
-		}
+		$qry   = $this->sql()->tableAttachments()->whereUser_id($myid)->andAttachment_addr($location);
+		// $field = null;
+		// foreach ($_location as $value)
+		// {
+		// 	$field = (is_null($field)? 'and': 'or' ). 'Attachment_title';
+		// 	$qry   = $qry->$field($value);
+		// }
+		
 		$qry        = $qry->orderAttachment_depth('ASC')->group('close')->select();
 		$tmp_result = $qry->allassoc();
-
 		// in this loop we check with depth number and if not correct return null
 		$is_invalid = false;
-		$myfolderid = $myid;
-		foreach ($_location as $key => $value)
-		{
-			if(isset($tmp_result[$key]) && $value === $tmp_result[$key]['attachment_title'])
-			{
-				$myfolderid = $tmp_result[$key]['id'];
-			}
-			else
-				$is_invalid = true;
-		}
+		$myfolderid = "#NULL";
+		// foreach ($_location as $key => $value)
+		// {
+		// 	if(isset($tmp_result[$key]) && $value === $tmp_result[$key]['attachment_title'])
+		// 	{
+		// 		$myfolderid = $tmp_result[$key]['id'];
+		// 	}
+		// 	else
+		// 		$is_invalid = true;
+		// }
 
-		if($is_invalid)
-		{
-			// show message to user for incorrect folder
-			debug::true(T_("this folder does not exist!"));
-			return;
-		}
+		// if($is_invalid)
+		// {
+		// 	// show message to user for incorrect folder
+		// 	debug::true(T_("this folder does not exist!"));
+		// 	return;
+		// }
 
 
 		$tmp_result  = $this->sql()->tableAttachments()
-									->whereUser_id          ($myid)
-									->andAttachment_depth   (count($_location))
-									->andAttachment_parent  ($myfolderid)
-									->orderAttachment_order ('ASC')
-									->select();
-		// var_dump($tmp_result->string());
-
+		->whereUser_id          ($myid)
+		// ->andAttachment_depth   (count($_location))
+		->andAttachment_addr  ($location)
+		->orderAttachment_order ('ASC')
+		->select();
 		$mydatatable = array();
 		foreach ($tmp_result->allassoc() as $row)
 		{
@@ -63,9 +61,71 @@ class model extends \mvc\model
 				'count'  => $row['attachment_count'],
 				'order'  => $row['attachment_order'],
 				'parent' => $row['attachment_parent'],
-			);
+				);
 		}
 		return $mydatatable;
+	}
+
+	public function post_folder(){
+		$uid = 190;
+		$parent = utility::post("parent");
+		if(!$parent){
+			$site = urldecode($_SERVER['HTTP_REFERER']);
+			preg_match("/^https?:\/\/[^\/]*(\/.*)$/", $site, $path);
+			$parent = $path[1];
+		}
+		$name = utility::post("folder");
+		$parent_id = $this->getFolder_id($parent, $name);
+		if(!$parent_id) debug::error("duplicate entry", "folder", "form");
+		$sql = $this->sql("make_file")->tableAttachments()
+		->setAttachment_model("folder")
+		->setAttachment_parent($parent_id)
+		->setAttachment_title($name)
+		->setAttachment_addr($parent)
+		->setAttachment_depth(count(explode('/', $parent))-1)
+		->setUser_id($uid)->insert();
+		$this->commit(function(){
+			debug::title("saved");
+		});
+		$this->commit(function(){
+			debug::title("error");
+		});
+	}
+
+	private function getFolder_id($addr, $name){
+		if($addr == "/") $parent_id = "#NULL";
+		else{
+			$sAddr = explode("/", $addr);
+			$pTitle = end($sAddr);
+			array_pop($sAddr);
+			$addr = join("/", $sAddr);
+			if($addr == "") $addr = "/";
+			$uid = 190;
+			$sql = $this->sql("getParent_id")->tableAttachments()
+			->fieldId()
+			->whereUser_id($uid)
+			->andAttachment_addr($addr)
+			->andAttachment_model("folder")
+			->andAttachment_title($pTitle)
+			->limit(1);
+			echo $sql->select()->string()."\n";
+			$parent_id = $sql->select()->assoc('id');
+		}
+		if(is_numeric($parent_id) || $parent_id == "#NULL"){
+			$isFolder = $this->sql("checkIsFolder")->tableAttachments()
+			->fieldId()
+			->whereUser_id($uid)
+			->andAttachment_title($name)
+			->andAttachment_parent($parent_id)
+			->limit(1)->select()->num();
+			if($isFolder){
+				return false;
+			}else{
+				return $parent_id;
+			}
+		}else{
+			return false;
+		}
 	}
 }
 ?>

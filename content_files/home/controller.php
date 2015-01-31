@@ -10,6 +10,8 @@ class controller extends \mvc\controller
 
 		// show all data on this subdomain
 		$this->get()->ALL();
+		$this->post('upload')->ALL("/^(upload|resume)$/");
+		$this->post('folder')->ALL("folder");
 	}
 }
 ?>

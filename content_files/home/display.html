@@ -2,66 +2,65 @@
 
 
 {%block head_css%}
- <link rel="stylesheet"    href="{{url.static}}css/style-files.css">
+<script src='{{url.static}}js/common.js'></script>
+<script src='{{url.static}}js/filemanager.js'></script>
+<link rel="stylesheet"    href="{{url.static}}css/style-files.css">
 {%endblock%}
 
 {%block content_def%}
 <div data-xhr="content_def" class="container" id="main">
 
-  <form id='upload_form'>
-    <label for='file_input'>File</label>
-    <input type='file' id='file_input'>
-    <button id='upload'>Upload</button>
-    <button id='pause'>Pause</button>
-    <button id='resume'>Resume</button>
-  </form>
+	<form id='upload_form' method="post">
+		<label for='file_input'>File</label>
+		<input type='file' id='file_input'>
+		<button id='upload'>Upload</button>
+		<button id='pause'>Pause</button>
+		<button id='resume'>Resume</button>
+	</form>
 
-  <script src='{{url.static}}js/common.js'></script>
-  <script src='{{url.static}}js/filemanager.js'></script>
-
- <ul class="breadcrumb">
-  <li><a href="/">{%trans "Home"%}</a></li>
-{%for value in location %}
-  <li><a href="">{{value}}</a></li>
-{%endfor%}
- </ul>
+	<ul class="breadcrumb">
+		<li><a href="/">{%trans "Home"%}</a></li>
+		{%for value in location %}
+		<li><a href="">{{value}}</a></li>
+		{%endfor%}
+	</ul>
 
 
 
 
- <div class="filemanager">
+	<div class="filemanager">
 
-  <div class="search">
-   <input type="search" placeholder="Find a file.." />
-  </div>
-<form action="" method="post">
-	<input type="text" name="folder" placeholder="{% trans "folder"%}">
-	<input type="submit" name="" value="{%trans "sumbit"%}">
-</form>
+		<div class="search">
+			<input type="search" placeholder="Find a file.." />
+		</div>
+		<form action="/folder" method="post">
+			<input type="text" name="folder" placeholder="{% trans "folder"%}">
+			<input type="submit" name="" value="{%trans "sumbit"%}">
+		</form>
 
-  {%if list|length == 0 %}
-  	{%trans "empty"%}
-  {%endif%}
-  <ul class="data animated">
-{% for key, value in list %}
+		{%if list|length == 0 %}
+		{%trans "empty"%}
+		{%endif%}
+		<ul class="data animated">
+			{% for key, value in list %}
 
-   <li class="{{value.model}}s">
-    <a href="{{url.path}}/{{key}}" title="files/123" class="{{value.model}}s">
-     <span class="icon {{value.model}} f-{{value.type}}"></span>
-     <span class="name">{{key}}</span> 
-     <span class="details">{{value.count}}</span>
-    </a>
-   </li>
-{% endfor %}
-  </ul>
+			<li class="{{value.model}}s">
+				<a href="{{url.path}}/{{key}}" title="files/123" class="{{value.model}}s">
+					<span class="icon {{value.model}} f-{{value.type}}"></span>
+					<span class="name">{{key}}</span> 
+					<span class="details">{{value.count}}</span>
+				</a>
+			</li>
+			{% endfor %}
+		</ul>
 
 
-  <div class="nothingfound">
-   <div class="nofiles"></div>
-   <span>No files here.</span>
-  </div>
+		<div class="nothingfound">
+			<div class="nofiles"></div>
+			<span>No files here.</span>
+		</div>
 
- </div>
+	</div>
 
 </div>
 {%endblock%}
