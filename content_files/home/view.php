@@ -15,6 +15,7 @@ class view extends \mvc\view
 		$this->data->list           = $this->model()->directories($this->data->location);
 
 		// var_dump($this->data->list);
+		// $this->model()->tree_dir();
 	}
 }
 ?>

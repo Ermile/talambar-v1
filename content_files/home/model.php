@@ -4,6 +4,61 @@ use \lib\debug;
 use \lib\utility;
 class model extends \mvc\model
 {
+	// return tree of all directories with subdirectories at all
+	public function tree_dir()
+	{
+		$myid = $this->login('id');
+
+		// create query for get by folders name and ordered by depth
+		$qry   = $this->sql()->tableAttachments()->whereUser_id($myid)->andAttachment_model('folder')
+					->orderAttachment_depth('ASC')->orderAttachment_order('ASC')->select();
+		var_dump($qry->string());
+		$tmp_result = $qry->allassoc();
+
+		$mydatatable = array();
+		$mydepth     = 0;
+
+		for($_depth = 0; $_depth < 5; $_depth++)
+		{
+			if($_depth == $row['attachment_depth'])
+			{
+
+			}
+		}
+
+		foreach ($tmp_result as $row)
+		{
+			if($mydepth == $row['attachment_depth'])
+				var_dump(123);
+
+
+			$mydatatable[$row['attachment_parent']] = array(
+				// 'model'  => $row['attachment_model'],
+				// 'type'   => $row['attachment_type'],
+				'depth'  => $row['attachment_depth'],
+				'count'  => $row['attachment_count'],
+				'order'  => $row['attachment_order'],
+				'parent' => $row['attachment_parent'],
+			);
+
+			// $mydatatable[$row['attachment_title']] = array(
+			// 	// 'model'  => $row['attachment_model'],
+			// 	// 'type'   => $row['attachment_type'],
+			// 	'depth'  => $row['attachment_depth'],
+			// 	'count'  => $row['attachment_count'],
+			// 	'order'  => $row['attachment_order'],
+			// 	'parent' => $row['attachment_parent'],
+			// );
+		}
+		// var_dump($tmp_result);
+		var_dump($mydatatable);
+
+		return $mydatatable;
+	}
+
+
+
+
 	public function directories($_location = null)
 	{
 		// now we only support only 9 subfolder!
