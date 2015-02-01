@@ -1,11 +1,19 @@
 
-{%block content_def%}
-<div data-xhr="content_def" class="container" id="main">
+{%block body_def%}
+<div data-xhr="body_def" class="container" id="main">
+
+ <form id='upload_form' method="post">
+  <label for='file_input'>File</label>
+  <input type='file' id='file_input'>
+  <button id='upload'>Upload</button>
+  <button id='pause'>Pause</button>
+  <button id='resume'>Resume</button>
+ </form>
 
  <ul class="breadcrumb">
   <li><a href="/">{%trans "Home"%}</a></li>
-{%for value in location %}
-  <li><a href="">{{value}}</a></li>
+{%for url,folder in breadcrumb %}
+  <li><a href="{{url}}">{{folder}}</a></li>
 {%endfor%}
  </ul>
 
@@ -17,11 +25,17 @@
   <div class="search">
    <input type="search" placeholder="Find a file.." />
   </div>
+  <form action="/folder" method="post">
+   <input type="text" name="folder" placeholder="{% trans "folder"%}">
+   <input type="submit" name="" value="{%trans "sumbit"%}">
+  </form>
 
-  <div class="breadcrumbs"></div>
-
+  {%if list|length == 0 %}
+  {%trans "empty"%}
+  {%endif%}
   <ul class="data animated">
-{% for key, value in list %}
+   {% for key, value in list %}
+
    <li class="{{value.model}}s">
     <a href="{{url.path}}/{{key}}" title="files/123" class="{{value.model}}s">
      <span class="icon {{value.model}} f-{{value.type}}"></span>
@@ -29,7 +43,7 @@
      <span class="details">{{value.count}}</span>
     </a>
    </li>
-{% endfor %}
+   {% endfor %}
   </ul>
 
 

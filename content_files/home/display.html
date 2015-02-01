@@ -23,9 +23,9 @@
 
  <ul class="breadcrumb">
   <li><a href="/">{%trans "Home"%}</a></li>
-  {%for value in location %}
-  <li><a href="">{{value}}</a></li>
-  {%endfor%}
+{%for url,folder in breadcrumb %}
+  <li><a href="{{url}}">{{folder}}</a></li>
+{%endfor%}
  </ul>
 
 

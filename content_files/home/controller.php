@@ -13,5 +13,6 @@ class controller extends \mvc\controller
 		$this->post('upload')->ALL("/^(upload|resume)$/");
 		$this->post('folder')->ALL("folder");
 	}
+
 }
 ?>

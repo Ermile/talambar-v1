@@ -12,10 +12,32 @@ class view extends \mvc\view
 		
 		// var_dump($this->data->location);
 		
-		$this->data->list           = $this->model()->directories($this->data->location);
+		$this->data->list           = $this->model()->directories_hasan($this->data->location);
 
 		// var_dump($this->data->list);
-		// $this->model()->tree_dir();
+		$this->data->yourlocation   = $this->model()->directories($this->data->location);
+		// var_dump($this->data->yourlocation);
+		
+		$this->data->breadcrumb     = $this->breadcrumb();
 	}
+
+
+	public function breadcrumb()
+	{
+		$myurl        = \lib\router::urlParser('current', 'path', 'array');
+		$mybreadcrumb = array();
+
+		foreach ($myurl as $key => $value)
+		{
+			$myaddr = '';
+			for ($i=0; $i <= $key ; $i++)
+				$myaddr .= $myurl[$i]. '/';
+
+			$mybreadcrumb[trim($myaddr, '/')] = $value;
+		}
+
+		return $mybreadcrumb;
+	}
+
 }
 ?>
