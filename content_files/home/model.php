@@ -229,6 +229,7 @@ class model extends \mvc\model
 	}
 
 	private function getFolder_id($addr, $name){
+		$uid = 190;
 		if($addr == "/") $parent_id = "#NULL";
 		else{
 			$sAddr = explode("/", $addr);
@@ -236,7 +237,6 @@ class model extends \mvc\model
 			array_pop($sAddr);
 			$addr = join("/", $sAddr);
 			if($addr == "") $addr = "/";
-			$uid = 190;
 			$sql = $this->sql("getParent_id")->tableAttachments()
 			->fieldId()
 			->whereUser_id($uid)

@@ -7,6 +7,7 @@ class view extends \mvc\view
 	{
 		$this->data->bodyclass      = 'fixed';
 		$this->include->js          = false;
+		$this->include->css         = false;
 		$this->include->fontawesome = true;
 		$this->data->location       = $this->url('path', -1);
 		
