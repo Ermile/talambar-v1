@@ -16,6 +16,7 @@ class model extends \mvc\model
 		foreach ($qry->allassoc() as $row)
 		{
 			$mydatatable[$row['attachment_title']] = array(
+				'id'     => $row['id'],
 				'model'  => $row['attachment_model'],
 				'type'   => $row['attachment_type'],
 				'count'  => $row['attachment_count'],
