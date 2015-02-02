@@ -4,6 +4,28 @@ use \lib\debug;
 use \lib\utility;
 class model extends \mvc\model
 {
+	public function files()
+	{
+		$myid = $this->login('id');
+
+		// create query for get by folders name and ordered by depth
+		$qry   = $this->sql()->tableAttachments()->whereUser_id($myid)->andAttachment_model('folder')
+					->orderAttachment_depth('ASC')->orderAttachment_order('ASC')->select();
+
+		$mydatatable = array();
+		foreach ($qry->allassoc() as $row)
+		{
+			$mydatatable[$row['attachment_title']] = array(
+				'model'  => $row['attachment_model'],
+				'type'   => $row['attachment_type'],
+				'count'  => $row['attachment_count'],
+				'order'  => $row['attachment_order'],
+				'parent' => $row['attachment_parent'],
+				);
+		}
+		return $mydatatable;
+	}
+
 	// return tree of all directories with subdirectories at all
 	public function tree_dir()
 	{

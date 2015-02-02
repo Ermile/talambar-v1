@@ -10,6 +10,9 @@ class view extends \mvc\view
 		$this->include->css         = false;
 		$this->include->fontawesome = true;
 		$this->data->location       = $this->url('path', -1);
+
+		$this->global->files        = $this->model()->files();
+		// var_dump($this->global->files);
 		
 		// var_dump($this->data->location);
 		
