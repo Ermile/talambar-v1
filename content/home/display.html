@@ -8,6 +8,15 @@
 {%else%}
    <a href="{{url.LoginService}}/login" class='button positive'>{%trans "Login"%}</a>
 {%endif%}
+
+
+  </div>
+  <div class="span5">
+   <h2>{%trans "Talambar"%}</h2>
+  </div>
+ </div>
+
+   <h3 id="slogan">{%trans "Security. Privacy. Simply."%}</h3>
 	 <select id="langlist">
 	{%for key, value in global.langlist%}{%if key == global.lang%}
 	  <option class="{{key}}" value="{{key}}" selected="selected">{{value}}</option>
@@ -15,8 +24,6 @@
 	  <option value="{{key}}">{{value}}</option>
 	{%endif%}{% endfor %}
 	 </select>
-  </div>
-  <div class="span5"><h2>{%trans "Talambar"%}</h2></div>
- </div>
+
 </div>
 {%endblock%}

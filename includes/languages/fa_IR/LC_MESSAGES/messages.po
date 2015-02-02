@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ermile\n"
-"POT-Creation-Date: 2015-01-28 00:20+0330\n"
-"PO-Revision-Date: 2015-01-28 00:20+0330\n"
+"POT-Creation-Date: 2015-02-02 21:12+0330\n"
+"PO-Revision-Date: 2015-02-02 21:14+0330\n"
 "Last-Translator: Javad Evazzadeh <J.Evazzadeh@gmail.com>\n"
 "Language-Team: Ermile\n"
 "Language: fa_IR\n"
@@ -16,15 +16,13 @@ msgstr ""
 "X-Poedit-KeywordsList: __;T_\n"
 "X-Poedit-SearchPath-0: ../../../../.\n"
 
-#: ../../../.././content_cp/main/controller.php:13
-#: ../../../.././content_files/main/controller.php:14
-msgid "first of all, you must login to system!"
-msgstr "شما ابتدا باید وارد سیستم شوید!"
-
-#: ../../../.././content_cp/main/controller.php:23
-#: ../../../.././content_files/main/controller.php:23
+#: ../../../.././content_cp/home/controller.php:23
 msgid "Not found!"
 msgstr "یافت نشد"
+
+#: ../../../.././content_files/home/model.php:132
+msgid "this folder does not exist!"
+msgstr "این پوشه در سیستم وجود ندارد!"
 
 #: ../../../.././includes/cls/database/ermile/translation.php:6
 msgid "accounts"
@@ -266,6 +264,7 @@ msgid "file"
 msgstr "فایل"
 
 #: ../../../.././includes/cls/database/ermile/translation.php:53
+#: ../../../.././includes/languages/twig_translation.php:29
 msgid "folder"
 msgstr "پوشه"
 
@@ -587,6 +586,7 @@ msgid "files"
 msgstr "فایل ها"
 
 #: ../../../.././includes/cls/database/ermile/translation.php:161
+#: ../../../.././includes/languages/twig_translation.php:43
 msgid "Files"
 msgstr "فایل ها"
 
@@ -661,7 +661,7 @@ msgstr "تنظیمات"
 
 #: ../../../.././includes/cls/database/ermile/translation.php:203
 #: ../../../.././includes/languages/static_translation.php:37
-#: ../../../.././includes/languages/twig_translation.php:45
+#: ../../../.././includes/languages/twig_translation.php:15
 msgid "Options"
 msgstr "تنظیمات"
 
@@ -747,13 +747,13 @@ msgstr "افزودن"
 
 #: ../../../.././includes/cls/database/ermile/translation.php:239
 #: ../../../.././includes/languages/static_translation.php:42
-#: ../../../.././includes/languages/twig_translation.php:49
+#: ../../../.././includes/languages/twig_translation.php:19
 msgid "Edit"
 msgstr "ویرایش"
 
 #: ../../../.././includes/cls/database/ermile/translation.php:240
 #: ../../../.././includes/languages/static_translation.php:43
-#: ../../../.././includes/languages/twig_translation.php:50
+#: ../../../.././includes/languages/twig_translation.php:20
 msgid "Delete"
 msgstr "حذف"
 
@@ -1361,7 +1361,7 @@ msgid "Enter your password"
 msgstr "کلمه عبور خود را وارد کنید"
 
 #: ../../../.././includes/cls/form/account.php:23
-#: ../../../.././includes/languages/twig_translation.php:61
+#: ../../../.././includes/languages/twig_translation.php:7
 msgid "Login"
 msgstr "ورود به سیستم"
 
@@ -1434,7 +1434,6 @@ msgid "some fields must be change for update!"
 msgstr "برای بروزرسانی باید حداقل یک فیلد را تغییر دهید!"
 
 #: ../../../.././includes/languages/static_translation.php:19
-#: ../../../.././includes/languages/twig_translation.php:38
 msgid "Ermile"
 msgstr "ارمایل"
 
@@ -1467,17 +1466,17 @@ msgid "made in iran"
 msgstr "ساخت ایران"
 
 #: ../../../.././includes/languages/static_translation.php:33
-#: ../../../.././includes/languages/twig_translation.php:41
+#: ../../../.././includes/languages/twig_translation.php:6
 msgid "Logout"
 msgstr "خروج از سیستم"
 
 #: ../../../.././includes/languages/static_translation.php:34
-#: ../../../.././includes/languages/twig_translation.php:42
+#: ../../../.././includes/languages/twig_translation.php:12
 msgid "Home"
 msgstr "صفحه نخست"
 
 #: ../../../.././includes/languages/static_translation.php:38
-#: ../../../.././includes/languages/twig_translation.php:46
+#: ../../../.././includes/languages/twig_translation.php:16
 msgid "Go to"
 msgstr "برو به"
 
@@ -1486,12 +1485,12 @@ msgid "Does not exist"
 msgstr "هیچ داده ای موجود نیست"
 
 #: ../../../.././includes/languages/static_translation.php:40
-#: ../../../.././includes/languages/twig_translation.php:47
+#: ../../../.././includes/languages/twig_translation.php:17
 msgid "Add New Record"
 msgstr "افزودن رکورد جدید"
 
 #: ../../../.././includes/languages/static_translation.php:41
-#: ../../../.././includes/languages/twig_translation.php:48
+#: ../../../.././includes/languages/twig_translation.php:18
 msgid "Actions"
 msgstr "عملیات"
 
@@ -1520,110 +1519,135 @@ msgid "Add New"
 msgstr "افزودن"
 
 #: ../../../.././includes/languages/twig_translation.php:8
-msgid "Click here for recovery your password"
-msgstr "برای بازیابی کلمه عبور کلیک کنید"
-
-#: ../../../.././includes/languages/twig_translation.php:9
-msgid "Can't access your account?"
-msgstr "نمی توانید به حساب خود وارد شوید؟"
-
-#: ../../../.././includes/languages/twig_translation.php:10
-msgid "Don't have an account?"
-msgstr "اکانت ندارید؟"
-
-#: ../../../.././includes/languages/twig_translation.php:11
-msgid "Click here to create an account"
-msgstr "برای ساخت اکانت کلیک کنید"
-
-#: ../../../.././includes/languages/twig_translation.php:12
-msgid "Sign Up"
-msgstr "ثبت نام"
-
-#: ../../../.././includes/languages/twig_translation.php:15
-msgid "receive message callback!"
-msgstr "دریافت پیامک"
-
-#: ../../../.././includes/languages/twig_translation.php:18
-msgid "terms of service"
-msgstr "قوانین استفاده"
-
-#: ../../../.././includes/languages/twig_translation.php:19
-msgid "by signing up, you agree to the"
-msgstr "با ثبت نام شما موافق هستید با"
-
-#: ../../../.././includes/languages/twig_translation.php:20
-msgid "already have an account?"
-msgstr "اکانت دارید؟"
-
-#: ../../../.././includes/languages/twig_translation.php:21
-msgid "click here to sign in to your account"
-msgstr "برای ورود به اکانت خود کلیک کنید"
-
-#: ../../../.././includes/languages/twig_translation.php:22
-msgid "Sign In"
-msgstr "ورود به سیستم"
-
-#: ../../../.././includes/languages/twig_translation.php:25
-msgid "Please send number <b>2015</b> to below number"
-msgstr "لطفا عدد <b>2015</b> را به شماره زیر پیامک کنید"
-
-#: ../../../.././includes/languages/twig_translation.php:26
-msgid "Then wait we receive your message and verificate your account"
-msgstr ""
-"ما در انتظار پیامک شما بوده و پس از دریافت اکانت را برایتان فعال خواهیم کردیم"
-
-#: ../../../.././includes/languages/twig_translation.php:29
-msgid "click here to login to your account"
-msgstr "برای ورود به اکانت خود کلیک کنید"
-
-#: ../../../.././includes/languages/twig_translation.php:30
-msgid "are you remember your password!?"
-msgstr "آیا کلمه عبور خود را به خاطر آوردید!؟"
-
-#: ../../../.././includes/languages/twig_translation.php:33
-msgid "we send a verification code for you"
-msgstr "ما کد اعتبارسنجی را برای شما ارسال خواهیم کرد"
-
-#: ../../../.././includes/languages/twig_translation.php:34
-msgid "please check your mobile and enter the code"
-msgstr "پس از بررسی موبایل خود کد را وارد کنید"
-
-#: ../../../.././includes/languages/twig_translation.php:35
-msgid "don't receive message?"
-msgstr "هنوز پیامک ما را دریافت نکردید؟"
-
-#: ../../../.././includes/languages/twig_translation.php:55
-msgid "Please select one item"
-msgstr "لطفا یک گزینه را انتخاب کنید"
-
-#: ../../../.././includes/languages/twig_translation.php:58
-msgid "Home Page"
-msgstr "صفحه نخست"
-
-#: ../../../.././includes/languages/twig_translation.php:59
-msgid "Admin"
-msgstr "مدیریت"
-
-#: ../../../.././includes/languages/twig_translation.php:60
-msgid "Control Panel"
-msgstr "کنترل پنل"
-
 #: ../../../.././includes/mvc/view.php:10
 msgid "Talambar"
 msgstr "تلمبار"
 
+#: ../../../.././includes/languages/twig_translation.php:9
+msgid "Security. Privacy. Simply."
+msgstr "امنیت. حریم خصوصی. سادگی"
+
+#: ../../../.././includes/languages/twig_translation.php:21
+msgid "delete record"
+msgstr "حذف رکورد"
+
+#: ../../../.././includes/languages/twig_translation.php:22
+msgid "seriously, are you sure? There's no coming back."
+msgstr "واقعا؟ این عملیات غیرقابل بازگشت است"
+
+#: ../../../.././includes/languages/twig_translation.php:23
+msgid "Cancel"
+msgstr "کنسل"
+
+#: ../../../.././includes/languages/twig_translation.php:24
+msgid "or"
+msgstr "یا"
+
+#: ../../../.././includes/languages/twig_translation.php:30
+msgid "sumbit"
+msgstr "تایید"
+
+#: ../../../.././includes/languages/twig_translation.php:31
+msgid "This folder is empty"
+msgstr "این پوشه خالی است"
+
+#: ../../../.././includes/languages/twig_translation.php:32
+msgid "Create a new Folder"
+msgstr "پوشه جدید بسازید"
+
+#: ../../../.././includes/languages/twig_translation.php:33
+msgid "Why!"
+msgstr "چرا!"
+
+#: ../../../.././includes/languages/twig_translation.php:36
+msgid "empty"
+msgstr "خالی"
+
+#: ../../../.././includes/languages/twig_translation.php:39
+msgid "Please select one item"
+msgstr "لطفا یک گزینه را انتخاب کنید"
+
+#: ../../../.././includes/languages/twig_translation.php:42
+msgid "Home Page"
+msgstr "صفحه نخست"
+
+#: ../../../.././includes/languages/twig_translation.php:44
+msgid "Control Panel"
+msgstr "کنترل پنل"
+
 #: ../../../.././includes/mvc/view.php:11
 msgid "Talambar is new"
-msgstr ""
+msgstr "تلمبار جدید است"
 
 #: ../../../.././includes/mvc/view.php:12
 msgid "Talambar is our project"
-msgstr ""
+msgstr "تلمبار پروژه ماست"
 
 #: ../../../.././includes/mvc/view.php:14
-#, fuzzy
 msgid "Talambar is Inteligent."
 msgstr "ارمایل باهوش است!"
+
+#~ msgid "first of all, you must login to system!"
+#~ msgstr "شما ابتدا باید وارد سیستم شوید!"
+
+#~ msgid "Click here for recovery your password"
+#~ msgstr "برای بازیابی کلمه عبور کلیک کنید"
+
+#~ msgid "Can't access your account?"
+#~ msgstr "نمی توانید به حساب خود وارد شوید؟"
+
+#~ msgid "Don't have an account?"
+#~ msgstr "اکانت ندارید؟"
+
+#~ msgid "Click here to create an account"
+#~ msgstr "برای ساخت اکانت کلیک کنید"
+
+#~ msgid "Sign Up"
+#~ msgstr "ثبت نام"
+
+#~ msgid "receive message callback!"
+#~ msgstr "دریافت پیامک"
+
+#~ msgid "terms of service"
+#~ msgstr "قوانین استفاده"
+
+#~ msgid "by signing up, you agree to the"
+#~ msgstr "با ثبت نام شما موافق هستید با"
+
+#~ msgid "already have an account?"
+#~ msgstr "اکانت دارید؟"
+
+#~ msgid "click here to sign in to your account"
+#~ msgstr "برای ورود به اکانت خود کلیک کنید"
+
+#~ msgid "Sign In"
+#~ msgstr "ورود به سیستم"
+
+#~ msgid "Please send number <b>2015</b> to below number"
+#~ msgstr "لطفا عدد <b>2015</b> را به شماره زیر پیامک کنید"
+
+#~ msgid "Then wait we receive your message and verificate your account"
+#~ msgstr ""
+#~ "ما در انتظار پیامک شما بوده و پس از دریافت اکانت را برایتان فعال خواهیم "
+#~ "کردیم"
+
+#~ msgid "click here to login to your account"
+#~ msgstr "برای ورود به اکانت خود کلیک کنید"
+
+#~ msgid "are you remember your password!?"
+#~ msgstr "آیا کلمه عبور خود را به خاطر آوردید!؟"
+
+#~ msgid "we send a verification code for you"
+#~ msgstr "ما کد اعتبارسنجی را برای شما ارسال خواهیم کرد"
+
+#~ msgid "please check your mobile and enter the code"
+#~ msgstr "پس از بررسی موبایل خود کد را وارد کنید"
+
+#~ msgid "don't receive message?"
+#~ msgstr "هنوز پیامک ما را دریافت نکردید؟"
+
+#~ msgid "Admin"
+#~ msgstr "مدیریت"
 
 #~ msgid "you are logined to system!"
 #~ msgstr "شما قبلا یک بار وارد سیستم شده اید!"
@@ -1636,9 +1660,6 @@ msgstr "ارمایل باهوش است!"
 
 #~ msgid "logout successfully"
 #~ msgstr "خروج موفقیت آمیز"
-
-#~ msgid "Create an account"
-#~ msgstr "اکانت بسازید"
 
 #~ msgid "Verificate"
 #~ msgstr "اعتبارسنجی"

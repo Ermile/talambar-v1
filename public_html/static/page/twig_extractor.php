@@ -1,0 +1,1 @@
+/home/javad/Desktop/talambar/includes/languages/twig_extractor.php
