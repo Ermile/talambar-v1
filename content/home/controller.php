@@ -13,6 +13,10 @@ class controller extends \mvc\controller
 	// for routing check
 	function _route()
 	{
+		// if comming from login service then redirect to files
+		$referer = \lib\router::urlParser('referer', 'domain');
+		if($referer === MainService)
+			$this->redirector()->set_domain('files.'.Service)->set_url();
 
 	}
 }

@@ -1,19 +1,22 @@
 {%extends display.mvc%}
-{%block content_def%}
-  <section>
-    <div class="topic cover light1">
-      <div class="row Slogan">
-        <h2>{{site.slogan}}</h2>
-      </div>
-      <div class="body">
-        <div >
-          <div class="span7"></div>
-          <div class="span5">
-            <h2>{%trans "Talambar"%}</h2>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
+{%block body_def%}
+<div class="topic light1">
+ <div class="body row">
+  <div class="span7">
+{%if global.login%}
+   <a href="{{url.MainService}}/logout" class='button negative'>{%trans "Logout"%}</a>
+{%else%}
+   <a href="{{url.LoginService}}/login" class='button positive'>{%trans "Login"%}</a>
+{%endif%}
+	 <select id="langlist">
+	{%for key, value in global.langlist%}{%if key == global.lang%}
+	  <option class="{{key}}" value="{{key}}" selected="selected">{{value}}</option>
+	{%else%}
+	  <option value="{{key}}">{{value}}</option>
+	{%endif%}{% endfor %}
+	 </select>
+  </div>
+  <div class="span5"><h2>{%trans "Talambar"%}</h2></div>
+ </div>
+</div>
 {%endblock%}
