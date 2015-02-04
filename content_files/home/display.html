@@ -11,14 +11,38 @@
 {%endblock%}
 
 {%block body_def%}
-<div data-xhr="body_def" class="container" id="main">
+<div data-xhr="body_def" class="filemanager-container" id="main">
 
- <ul class="breadcrumb">
+<div class="header">
+
+<div class="bottom">
+  
+  <div class="controls">
+      <a class="upload" href="">
+      <i class="fa fa-upload"></i>
+    </a>
+    <a class="folder" href="">
+      <i class="fa fa-folder"></i>
+    </a> 
+  </div>
+
+  <ul class="fbreadcrumb" >
   <li><a href="/">{%trans "Home"%}</a></li>
 {%for url,folder in breadcrumb %}
-  <li><a href="{{url}}">{{folder}}</a></li>
+
+  <li><i class="fa fa-arrow-right"></i><a href="{{url}}">{{folder}}</a>
+</li>
 {%endfor%}
- </ul>
+ </ul>  
+ 
+</div>
+</div>
+
+
+
+<div style="display:none">
+
+
 
 <br />
  <button type="button" data-method="post" data-modal="delete-confirm">Create Folder</button>
@@ -32,14 +56,14 @@
 <br />
 
 
- <form id='upload_form' method="post">
+ <form id='upload_form' method="post" >
   <label for='file_input'>File</label>
   <input type='file' id='file_input'>
   <button id='upload'>Upload</button>
   <button id='pause'>Pause</button>
   <button id='resume'>Resume</button>
  </form>
-
+</div>
 
 
 
@@ -61,7 +85,9 @@
 
    <li class="{{value.model}}s">
     <a href="{{url.path}}/{{key}}" title="files/123" class="{{value.model}}s">
-     <span class="icon {{value.model}} f-{{value.type}}"></span>
+      <i class="fa fa-{{value.model}}"></i>
+     <!-- <span class="icon {{value.model}} f-{{value.type}}"></span> -->
+     <input class="checkbox" type="checkbox">
      <span class="name">{{key}}</span> 
      <span class="details">{{value.count}}</span>
     </a>
