@@ -22,6 +22,16 @@
 }
 
 
+.filemanager-container{
+	width: 100%;
+}
+
+.header{
+	background: url('../images/pattern.png') repeat;
+	height: 60px;
+	width: 100%;
+}
+
 /*-------------------------
 	Breadcrumps
 -------------------------*/
@@ -170,6 +180,10 @@
 	left: 0;
 	width: 100%;
 	height: 100%;
+}
+
+.filemanager .data li i {
+	font-size:25px;
 }
 
 .filemanager .data li .name {
