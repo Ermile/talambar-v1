@@ -7,6 +7,9 @@
 
 {%block foot_js%}
  <script src='{{url.static}}js/filemanager.js'></script>
+ <script src='{{url.static}}js/mv.js'></script>
+ <script src='{{url.static}}js/views.js'></script>
+ <script src='{{url.static}}js/files-folders.js'></script>
  <script src='{{url.static}}js/script-files.js'></script>
 {%endblock%}
 
@@ -68,43 +71,9 @@
 
 
 
-
- <div class="filemanager">
-
-  <div class="search">
-   <input type="search" placeholder="Find a file.." />
-  </div>
-
-
-
-  {%if list|length == 0 %}
-  {%trans "This folder is empty"%}
-  {%endif%}
-  <ul class="data animated">
-   {% for key, value in list %}
-
-   <li class="{{value.model}}s">
-    <a href="{{url.path}}/{{key}}" title="files/123" class="{{value.model}}s">
-      <i class="fa fa-{{value.model}}"></i>
-     <!-- <span class="icon {{value.model}} f-{{value.type}}"></span> -->
-     <input class="checkbox" type="checkbox">
-     <span class="name">{{key}}</span> 
-     <span class="details">{{value.count}}</span>
-    </a>
-   </li>
-   {% endfor %}
-  </ul>
-
-
-  <div class="nothingfound">
-   <div class="nofiles"></div>
-   <span>No files here.</span>
-  </div>
-
- </div>
+<div class="filemanager" id="files"> 
 
 </div>
-
 
 
 <div class='modal hidden modal-delete-confirm' id='delete-confirm' data-modal>
