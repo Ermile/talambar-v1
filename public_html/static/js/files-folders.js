@@ -1,15 +1,81 @@
-route('*', function() {
-  var $files = $('#files', this);
+var fileList, component;
+(function() {
+  fileList = new Cortex({});
 
-  var fileList = new Cortex([{name: 'Salam', type: 'folder'}]);
+  var parent = '';
+
+  var lastPath = '';
 
   $(document).on('navigate:done', function(e, data) {
-    fileList.set(data.files);
+    fileList.set(JSON.parse(data.tree));
+    var name = location.pathname.slice(1);
+
+    var current = fileFinder();
+    if(current) parent = current.id.getValue();
+    else parent = '';
+    component.setProps({parent: parent});
   });
+
+  var $files = $('#files');
 
   fileList.on('update', function(d) {
-    componen.setProps({items: d.getValue()});
+    component.setProps({items: d.getValue()});
   });
 
-  var component = React.render(FileList({items: fileList.getValue()}), $files.get(0));
-});
+  component = React.render(FileList({items: fileList.getValue()}), $files.get(0));
+
+  component.componentDidUpdate = function() {
+    var current = findInList({id: this.props.parent});
+    if(!current) return;
+    var path = findPath(current);
+    if(path === lastPath) return;
+    lastPath = path;
+
+    Navigate({
+      url: path
+    });
+  };
+
+  Navigate({
+    url: location.href,
+    replace: true
+  });
+})();
+
+
+function fileFinder() {
+  var tree = location.pathname.slice(1).split('/');
+
+  if(!tree || tree[0] === "") return null;
+
+  return tree.slice(1).reduce(function(prev, current) {
+    console.log(prev.getValue(), current);
+    return findInList({
+      name: current,
+      parent: prev.id.getValue()
+    });
+  }, findInList({name: tree[0], parent: ''}));
+}
+
+function findPath(file) {
+  var path = file.name.getValue();
+
+  var parent = findInList({id: file.parent.getValue()});
+  while(parent) {
+    path = parent.name.getValue() + '/' + path;
+
+    parent = findInList({id: parent.parent.getValue()});
+  }
+
+  return path;
+}
+
+function findInList(object) {
+  return fileList.find(function(f) {
+    var condition = true;
+    for(var i in object) {
+      condition = f[i].getValue() === object[i];
+    }
+    return condition;
+  });
+}
