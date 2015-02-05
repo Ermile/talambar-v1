@@ -9,7 +9,7 @@ class model extends \mvc\model
 		$myid = $this->login('id');
 
 		// create query for get by folders name and ordered by depth
-		$qry   = $this->sql()->tableAttachments()->whereUser_id($myid)->andAttachment_model('folder')
+		$qry   = $this->sql()->tableAttachments()->whereUser_id($myid)->andAttachment_type('folder')
 					->orderAttachment_depth('ASC')->orderAttachment_order('ASC')->select();
 
 		$mydatatable = array();
@@ -17,8 +17,8 @@ class model extends \mvc\model
 		{
 			$mydatatable[$row['attachment_title']] = array(
 				'id'     => $row['id'],
-				'model'  => $row['attachment_model'],
 				'type'   => $row['attachment_type'],
+				'ext'    => $row['attachment_ext'],
 				'count'  => $row['attachment_count'],
 				'order'  => $row['attachment_order'],
 				'parent' => $row['attachment_parent'],
@@ -33,7 +33,7 @@ class model extends \mvc\model
 		$myid = $this->login('id');
 
 		// create query for get by folders name and ordered by depth
-		$qry   = $this->sql()->tableAttachments()->whereUser_id($myid)->andAttachment_model('folder')
+		$qry   = $this->sql()->tableAttachments()->whereUser_id($myid)->andAttachment_type('folder')
 					->orderAttachment_depth('ASC')->orderAttachment_order('ASC')->select();
 		// var_dump($qry->string());
 		// @hasan : second order is not work ******************************************* @hasan
@@ -69,8 +69,8 @@ class model extends \mvc\model
 
 
 			$mydatatable[$row['attachment_parent']] = array(
-				// 'model'  => $row['attachment_model'],
 				// 'type'   => $row['attachment_type'],
+				// 'ext'    => $row['attachment_ext'],
 				'depth'  => $row['attachment_depth'],
 				'count'  => $row['attachment_count'],
 				'order'  => $row['attachment_order'],
@@ -78,8 +78,8 @@ class model extends \mvc\model
 			);
 
 			// $mydatatable[$row['attachment_title']] = array(
-			// 	// 'model'  => $row['attachment_model'],
 			// 	// 'type'   => $row['attachment_type'],
+			// 	// 'ext'    => $row['attachment_ext'],
 			// 	'depth'  => $row['attachment_depth'],
 			// 	'count'  => $row['attachment_count'],
 			// 	'order'  => $row['attachment_order'],
@@ -146,8 +146,8 @@ class model extends \mvc\model
 		foreach ($tmp_result->allassoc() as $row)
 		{
 			$mydatatable[$row['attachment_title']] = array(
-				'model'  => $row['attachment_model'],
 				'type'   => $row['attachment_type'],
+				'ext'    => $row['attachment_ext'],
 				'depth'  => $row['attachment_depth'],
 				'count'  => $row['attachment_count'],
 				'order'  => $row['attachment_order'],
@@ -213,8 +213,8 @@ class model extends \mvc\model
 		foreach ($tmp_result->allassoc() as $row)
 		{
 			$mydatatable[$row['attachment_title']] = array(
-				'model'  => $row['attachment_model'],
 				'type'   => $row['attachment_type'],
+				'ext'    => $row['attachment_ext'],
 				'depth'  => $row['attachment_depth'],
 				'count'  => $row['attachment_count'],
 				'order'  => $row['attachment_order'],
@@ -237,7 +237,7 @@ class model extends \mvc\model
 		$parent_id = $this->getFolder_id($parent, $name);
 		if(!$parent_id) debug::error("duplicate entry", "folder", "form");
 		$sql = $this->sql("make_file")->tableAttachments()
-		->setAttachment_model("folder")
+		->setAttachment_type("folder")
 		->setAttachment_parent($parent_id)
 		->setAttachment_title($name)
 		->setAttachment_addr($parent)
@@ -264,7 +264,7 @@ class model extends \mvc\model
 			->fieldId()
 			->whereUser_id($uid)
 			->andAttachment_addr($addr)
-			->andAttachment_model("folder")
+			->andAttachment_type("folder")
 			->andAttachment_title($pTitle)
 			->limit(1);
 			echo $sql->select()->string()."\n";
