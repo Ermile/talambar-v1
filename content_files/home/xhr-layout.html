@@ -1,58 +1,107 @@
-
 {%block body_def%}
-<div data-xhr="body_def" class="container" id="main">
+<div data-xhr="body_def" class="filemanager-container" id="main">
 
- <form id='upload_form' method="post">
+<div class="header">
+
+<div class="bottom">
+  
+  <div class="controls">
+      <a class="upload" href="">
+      <i class="fa fa-upload"></i>
+    </a>
+    <a class="folder" href="">
+      <i class="fa fa-folder"></i>
+    </a> 
+  </div>
+
+  <ul class="fbreadcrumb" >
+  <li><a href="/">{%trans "Home"%}</a></li>
+{%for url,folder in breadcrumb %}
+
+  <li><i class="fa fa-arrow-right"></i><a href="{{url}}">{{folder}}</a>
+</li>
+{%endfor%}
+ </ul>  
+
+</div>
+</div>
+
+
+
+<div style="display:none">
+
+
+
+<br />
+ <button type="button" data-method="post" data-modal="delete-confirm">Create Folder</button>
+
+ <form action="/folder" method="post">
+  <input type="text" name="folder" placeholder="{% trans "folder"%}">
+  <input type="submit" name="" value="{%trans "sumbit"%}">
+ </form>
+
+<br />
+<br />
+
+
+ <form id='upload_form' method="post" >
   <label for='file_input'>File</label>
   <input type='file' id='file_input'>
   <button id='upload'>Upload</button>
   <button id='pause'>Pause</button>
   <button id='resume'>Resume</button>
  </form>
-
- <ul class="breadcrumb">
-  <li><a href="/">{%trans "Home"%}</a></li>
-{%for url,folder in breadcrumb %}
-  <li><a href="{{url}}">{{folder}}</a></li>
-{%endfor%}
- </ul>
+</div>
 
 
 
 
- <div class="filemanager">
-
-  <div class="search">
-   <input type="search" placeholder="Find a file.." />
-  </div>
-  <form action="/folder" method="post">
-   <input type="text" name="folder" placeholder="{% trans "folder"%}">
-   <input type="submit" name="" value="{%trans "sumbit"%}">
-  </form>
-
-  {%if list|length == 0 %}
-  {%trans "empty"%}
-  {%endif%}
-  <ul class="data animated">
-   {% for key, value in list %}
-
-   <li class="{{value.model}}s">
-    <a href="{{url.path}}/{{key}}" title="files/123" class="{{value.model}}s">
-     <span class="icon {{value.model}} f-{{value.type}}"></span>
-     <span class="name">{{key}}</span> 
-     <span class="details">{{value.count}}</span>
-    </a>
-   </li>
-   {% endfor %}
-  </ul>
-
-
-  <div class="nothingfound">
-   <div class="nofiles"></div>
-   <span>No files here.</span>
-  </div>
-
- </div>
+<div class="filemanager" id="files"> 
 
 </div>
+
+
+<div class='modal hidden modal-delete-confirm' id='delete-confirm' data-modal>
+ <div class='modal-dialog'>
+  <h3 class='modal-title'>{%trans%}Create a new Folder{%endtrans%}</h3>
+  <div class='modal-body'>
+   <form action="/folder" method="post">
+    <input type="text" name="folder" placeholder="{% trans "folder"%}">
+    <input type="submit" name="" value="{%trans "sumbit"%}">
+   </form>
+  </div>
+
+  <div class='modal-footer buttons'>
+   <a class='button delete-cancel2' data-action data-close>{%trans "Cancel"%}</a>
+   <div class='or' data-text='{%trans "or"%}'></div>
+   <a class='button negative' data-ajaxify data-close>{%trans "Why!"%}</a>
+  </div>
+ </div>
+</div>
+
+
+
+
+
+
+
+<footer id="footer">
+  <div id="copyright">
+   <div class='hint--right' data-hint='{%trans "Ermile is our brand"%}'>
+    <span>&copy; {{'now'|date('Y')}}</span>
+    <a href="{{url.root}}" title="{{site.desc}}" tabindex="-1">{{site.title}}</a>
+   </div>
+
+   <div id='languages' class='hint--left' data-hint='{%trans "Experience our service in your language"%}'>
+    <select id="langlist">
+   {{global.lang}}
+{%for key, value in global.langlist%}{%if key == global.lang%}
+     <option value="{{key}}" selected="selected">{{value}}</option>
+{%else%}
+     <option value="{{key}}">{{value}}</option>
+{%endif%}{% endfor %}
+    </select>
+   </div>
+  </div>
+</footer>
 {%endblock%}

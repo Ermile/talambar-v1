@@ -12,7 +12,7 @@ class view extends \mvc\view
 		$this->data->location       = $this->url('path', -1);
 
 		$this->global->tree         = $this->model()->files();
-		var_dump($this->global->tree);
+		// var_dump($this->global->tree);
 		
 		// var_dump($this->data->location);
 		
