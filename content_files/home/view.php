@@ -11,7 +11,8 @@ class view extends \mvc\view
 		$this->include->fontawesome = true;
 		$this->data->location       = $this->url('path', -1);
 
-		$this->global->tree         = $this->model()->files();
+		$this->global->tree         = json_encode($this->model()->tree());
+		// var_dump($this->global->tree);
 		// var_dump($this->global->tree);
 		
 		// var_dump($this->data->location);

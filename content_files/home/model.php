@@ -4,7 +4,7 @@ use \lib\debug;
 use \lib\utility;
 class model extends \mvc\model
 {
-	public function files()
+	public function tree()
 	{
 		$myid = $this->login('id');
 
@@ -15,7 +15,8 @@ class model extends \mvc\model
 		$mydatatable = array();
 		foreach ($qry->allassoc() as $row)
 		{
-			$mydatatable[$row['attachment_title']] = array(
+			$mydatatable[] = array(
+				'name'     => $row['attachment_title'],
 				'id'     => $row['id'],
 				'type'   => $row['attachment_type'],
 				'ext'    => $row['attachment_ext'],
@@ -28,7 +29,7 @@ class model extends \mvc\model
 	}
 
 	// return tree of all directories with subdirectories at all
-	public function tree_dir()
+	public function test_dir()
 	{
 		$myid = $this->login('id');
 
