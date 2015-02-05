@@ -30,5 +30,12 @@ class view extends \lib\mvc\view
 			$this->include->gettext  = 'Translation use PHP gettext class';
 		}
 	}
+
+	function pushState()
+	{
+		$this->data->display['files'] = "content_files/home/xhr-layout.html";
+		$this->data->display['cp']    = "content_cp/main/xhr-layout.html";
+	}
+
 }
 ?>
