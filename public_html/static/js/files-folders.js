@@ -2,80 +2,79 @@ var fileList, component;
 (function() {
   fileList = new Cortex({});
 
-  var parent = '';
-
-  var lastPath = '';
-
-  $(document).on('navigate:done', function(e, data) {
-    fileList.set(JSON.parse(data.tree));
-    var name = location.pathname.slice(1);
-
-    var current = fileFinder();
-    if(current) parent = current.id.getValue();
-    else parent = '';
-    component.setProps({parent: parent});
-  });
-
+  var $breadcrumbs = $('.fbreadcrumb');
   var $files = $('#files');
 
   fileList.on('update', function(d) {
     component.setProps({items: d.getValue()});
+
+    $(document).trigger('navigate:done');
   });
 
-  component = React.render(FileList({items: fileList.getValue()}), $files.get(0));
-
-  component.componentDidUpdate = function() {
-    var current = findInList({id: this.props.parent});
-    if(!current) return;
-    var path = findPath(current);
-    if(path === lastPath) return;
-    lastPath = path;
-
-    Navigate({
-      url: path
-    });
-  };
+  component = React.render(FileList({items: []}), $files.get(0));
 
   Navigate({
-    url: location.href,
+    url: location.pathname,
     replace: true
+  }).done(function() {
+    fileList.set(JSON.parse(history.state.tree));
+    filterByURL();
   });
+
+  $(window).on('statechange', function() {
+    filterByURL();
+
+    var $newcrumbs = generateBreadcrumbs();
+    $breadcrumbs.html($newcrumbs);
+  });
+
 })();
 
+function filterByURL() {
+  var url = location.pathname.slice(1).split('/');
 
-function fileFinder() {
-  var tree = location.pathname.slice(1).split('/');
+  var current = findInList({name: url[0], parent: ''});
+  (function() {
+    if(!current) return;
 
-  if(!tree || tree[0] === "") return null;
+    for(var i = 1, len = url.length; i < len; i++) {
+      current = findInList({name: url[i], parent: current.id.getValue()});
+    }
+  })();
+  var parent = current ? current.id.getValue() : '';
 
-  return tree.slice(1).reduce(function(prev, current) {
-    console.log(prev.getValue(), current);
-    return findInList({
-      name: current,
-      parent: prev.id.getValue()
-    });
-  }, findInList({name: tree[0], parent: ''}));
-}
-
-function findPath(file) {
-  var path = file.name.getValue();
-
-  var parent = findInList({id: file.parent.getValue()});
-  while(parent) {
-    path = parent.name.getValue() + '/' + path;
-
-    parent = findInList({id: parent.parent.getValue()});
-  }
-
-  return path;
+  component.setProps({
+    parent: parent
+  });
 }
 
 function findInList(object) {
   return fileList.find(function(f) {
     var condition = true;
     for(var i in object) {
-      condition = f[i].getValue() === object[i];
+      condition = condition && f[i].getValue() === object[i];
     }
     return condition;
   });
+}
+
+function generateBreadcrumbs(path) {
+  var tree = location.pathname.slice(1).split('/');
+  var gen = '';
+
+  var $li = $('<li><i class="fa fa-arrow-right"></i><a></a></li>');
+
+  var $home = $('<li><a href="/">Home</a></li>');
+
+  if(!tree || tree[0] === "") return $home;
+
+  var $els = tree.map(function(segment) {
+    gen += '/' + segment;
+    var $clone = $li.clone();
+
+    $clone.find('a').attr('href', gen).html(segment);
+    return $clone.get(0);
+  });
+
+  return $home.add($els);
 }
