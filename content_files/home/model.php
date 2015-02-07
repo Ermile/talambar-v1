@@ -227,6 +227,7 @@ class model extends \mvc\model
 	}
 
 	public function post_folder(){
+		exit();
 		$uid = 190;
 		$parent = utility::post("parent");
 		if(!$parent){
