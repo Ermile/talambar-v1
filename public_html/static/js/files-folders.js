@@ -1,13 +1,22 @@
 (function() {
   var fileList = new Cortex({});
+  var filesTree = new Cortex({});
 
-  $breadcrumbs = React.render(BreadcrumbView({items: []}), document.getElementById('breadcrumb-wrapper'));
+  var $breadcrumbs = React.render(BreadcrumbView({items: []}), document.getElementById('breadcrumb-wrapper'));
+
+  var $tree = React.render(TreeView({items:{}}), document.getElementById('tree-wrapper'));
+
   var $files = $('#files');
 
   fileList.on('update', function(d) {
     component.setProps({items: d.getValue()});
 
+    filesTree.set(objectifyFiles(fileList, getChildren(fileList, "")));
     $(document).trigger('navigate:done');
+  });
+
+  filesTree.on('update', function(d) {
+    $tree.setProps({items: d.val()});
   });
 
   var component = React.render(FileList({items: []}), $files.get(0));
@@ -82,3 +91,22 @@ function filterByURL(files) {
   return parent;
 }
 
+function objectifyFiles(files, filtered, url) {
+  var tree = {};
+
+  filtered.forEach(function(file) {
+    var obj = file.val();
+    obj.url = (url || '') + '/' + obj.name;
+    obj.children = objectifyFiles(files, getChildren(files, obj.id), obj.url);
+
+    tree[obj.id] = obj;
+  });
+
+  return tree;
+}
+
+function getChildren(files, id) {
+  return new Cortex(files.filterObject({parent: id}).map(function(a) {
+    return a.val();
+  }));
+}
