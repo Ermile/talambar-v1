@@ -27,14 +27,11 @@
     </a> 
   </div>
 
-  <ul class="fbreadcrumb" >
-  <li><a href="/">{%trans "Home"%}</a></li>
-{%for url,folder in breadcrumb %}
-
-  <li><i class="fa fa-arrow-right"></i><a href="{{url}}">{{folder}}</a>
-</li>
-{%endfor%}
- </ul>  
+  <div id='breadcrumb-wrapper'>
+    <ul class="fbreadcrumb">
+    
+    </ul>
+  </div>
 
 </div>
 </div>

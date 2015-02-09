@@ -1,8 +1,7 @@
-var fileList, component;
 (function() {
-  fileList = new Cortex({});
+  var fileList = new Cortex({});
 
-  var $breadcrumbs = $('.fbreadcrumb');
+  $breadcrumbs = React.render(BreadcrumbView({items: []}), document.getElementById('breadcrumb-wrapper'));
   var $files = $('#files');
 
   fileList.on('update', function(d) {
@@ -11,70 +10,75 @@ var fileList, component;
     $(document).trigger('navigate:done');
   });
 
-  component = React.render(FileList({items: []}), $files.get(0));
+  var component = React.render(FileList({items: []}), $files.get(0));
 
   Navigate({
     url: location.pathname,
     replace: true
   }).done(function() {
     fileList.set(JSON.parse(history.state.tree));
-    filterByURL();
+
+    var parent = filterByURL(fileList);
+    component.setProps({
+      parent: parent
+    });
   });
 
   $(window).on('statechange', function() {
-    filterByURL();
+    var parent = filterByURL(fileList);
+    component.setProps({
+      parent: parent
+    });
 
-    var $newcrumbs = generateBreadcrumbs();
-    $breadcrumbs.html($newcrumbs);
+    $breadcrumbs.setProps({
+      'items': location.pathname.slice(1).split('/')
+    });
   });
-
 })();
 
-function filterByURL() {
+$(document).ready(function() {
+  var filemanager = $('.filemanager');
+
+  var fm;
+
+  $('#upload').click(function() {
+    fm = new FileManager({
+      file: $('#file_input').get(0).files[0],
+      ajax: {
+        type: 'post',
+        contentType: false,
+        processData: false,
+        dataType: 'text',
+        mimeType: 'text/plain',
+        url: 'http://localhost/'
+      },
+    });
+
+    fm.upload();
+  });
+
+  $('#resume').click(function() {
+    fm.resume();
+  });
+
+  $('#pause').click(function() {
+    fm.pause();
+  });
+});
+
+function filterByURL(files) {
   var url = location.pathname.slice(1).split('/');
 
-  var current = findInList({name: url[0], parent: ''});
+  var current = files.findObject({name: url[0], parent: ''});
   (function() {
     if(!current) return;
 
     for(var i = 1, len = url.length; i < len; i++) {
-      current = findInList({name: url[i], parent: current.id.getValue()});
+      current = files.findObject({name: url[i], parent: current.id.getValue()});
     }
   })();
   var parent = current ? current.id.getValue() : '';
 
-  component.setProps({
-    parent: parent
-  });
+  return parent;
 }
 
-function findInList(object) {
-  return fileList.find(function(f) {
-    var condition = true;
-    for(var i in object) {
-      condition = condition && f[i].getValue() === object[i];
-    }
-    return condition;
-  });
-}
-
-function generateBreadcrumbs(path) {
-  var tree = location.pathname.slice(1).split('/');
-  var gen = '';
-
-  var $li = $('<li><i class="fa fa-arrow-right"></i><a></a></li>');
-
-  var $home = $('<li><a href="/">Home</a></li>');
-
-  if(!tree || tree[0] === "") return $home;
-
-  var $els = tree.map(function(segment) {
-    gen += '/' + segment;
-    var $clone = $li.clone();
-
-    $clone.find('a').attr('href', gen).html(segment);
-    return $clone.get(0);
-  });
-
-  return $home.add($els);
-}
