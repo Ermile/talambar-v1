@@ -50,17 +50,16 @@ $(document).ready(function() {
 
   var fm;
 
+  $('#upload_form').submit(function(e) {
+    e.preventDefault();
+  });
+
   $('#upload').click(function() {
     fm = new FileManager({
       file: $('#file_input').get(0).files[0],
       ajax: {
-        type: 'post',
-        contentType: false,
-        processData: false,
-        dataType: 'text',
-        mimeType: 'text/plain',
-        url: 'http://localhost/'
-      },
+        url: 'http://files.talambar.dev'
+      }
     });
 
     fm.upload();
