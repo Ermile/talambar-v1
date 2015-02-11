@@ -54,7 +54,8 @@ $(document).ready(function() {
     e.preventDefault();
   });
 
-  $('#upload').click(function() {
+  $('#upload').click(function(e) {
+    e.preventDefault();
     fm = new FileManager({
       file: $('#file_input').get(0).files[0],
       ajax: {
@@ -65,11 +66,13 @@ $(document).ready(function() {
     fm.upload();
   });
 
-  $('#resume').click(function() {
+  $('#resume').click(function(e) {
+    e.preventDefault();
     fm.resume();
   });
 
-  $('#pause').click(function() {
+  $('#pause').click(function(e) {
+    e.preventDefault();
     fm.pause();
   });
 });
