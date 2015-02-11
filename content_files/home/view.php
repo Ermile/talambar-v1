@@ -17,7 +17,7 @@ class view extends \mvc\view
 		
 		// var_dump($this->data->location);
 		
-		$this->data->list           = $this->model()->directories_hasan($this->data->location);
+		// $this->data->list           = $this->model()->directories_hasan($this->data->location);
 
 		// var_dump($this->data->list);
 		$this->data->yourlocation   = $this->model()->directories($this->data->location);
