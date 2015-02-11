@@ -288,5 +288,11 @@ class model extends \mvc\model
 			return false;
 		}
 	}
+
+	public function post_upload(){
+		print_r($_POST);
+		print_r($_FILES);
+		print_r(apache_request_headers());
+	}
 }
 ?>

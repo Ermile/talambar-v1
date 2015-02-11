@@ -17,8 +17,9 @@ class controller extends \mvc\controller
 		$mychild	 = $this->child();
 
 		// show all data on this subdomain
+		$x = $this->post('upload')->ALL();
+
 		$this->get()->ALL();
-		$this->post('upload')->ALL("/^(upload|resume)$/");
 		$this->post('folder')->ALL("folder");
 	}
 
