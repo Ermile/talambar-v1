@@ -10,7 +10,7 @@ class model extends \mvc\model
 
 		// create query for get by folders name and ordered by depth
 		$qry   = $this->sql()->tableAttachments()->whereUser_id($myid)->andAttachment_type('folder')
-					->orderAttachment_depth('ASC')->orderAttachment_order('ASC')->select();
+		->orderAttachment_depth('ASC')->orderAttachment_order('ASC')->select();
 
 		$mydatatable = array();
 		foreach ($qry->allassoc() as $row)
@@ -35,7 +35,7 @@ class model extends \mvc\model
 
 		// create query for get by folders name and ordered by depth
 		$qry   = $this->sql()->tableAttachments()->whereUser_id($myid)->andAttachment_type('folder')
-					->orderAttachment_depth('ASC')->orderAttachment_order('ASC')->select();
+		->orderAttachment_depth('ASC')->orderAttachment_order('ASC')->select();
 		// var_dump($qry->string());
 		// @hasan : second order is not work ******************************************* @hasan
 		$tmp_result = $qry->allassoc();
@@ -76,7 +76,7 @@ class model extends \mvc\model
 				'count'  => $row['attachment_count'],
 				'order'  => $row['attachment_order'],
 				'parent' => $row['attachment_parent'],
-			);
+				);
 
 			// $mydatatable[$row['attachment_title']] = array(
 			// 	// 'type'   => $row['attachment_type'],
@@ -136,11 +136,11 @@ class model extends \mvc\model
 
 
 		$tmp_result  = $this->sql()->tableAttachments()
-									->whereUser_id          ($myid)
-									->andAttachment_depth   (count($_location))
-									->andAttachment_parent  ($myfolderid)
-									->orderAttachment_order ('ASC')
-									->select();
+		->whereUser_id          ($myid)
+		->andAttachment_depth   (count($_location))
+		->andAttachment_parent  ($myfolderid)
+		->orderAttachment_order ('ASC')
+		->select();
 		// var_dump($tmp_result->string());
 
 		$mydatatable = array();
@@ -153,7 +153,7 @@ class model extends \mvc\model
 				'count'  => $row['attachment_count'],
 				'order'  => $row['attachment_order'],
 				'parent' => $row['attachment_parent'],
-			);
+				);
 		}
 		return $mydatatable;
 	}
@@ -290,9 +290,55 @@ class model extends \mvc\model
 	}
 
 	public function post_upload(){
-		print_r($_POST);
-		print_r($_FILES);
-		print_r(apache_request_headers());
+		$tmp = root.'../tmp-upd/';
+		$uid = $_SESSION['user']['id'];
+		$session = utility::post("session");
+		$query_upload = $this->sql('upload')->tableUpload();
+		if($session == '0'){
+			$session = md5(time());
+			$file_id = $query_upload->setPart("#0")
+			->setSession($session)
+			->setUser_id($uid)
+			->insert()->LAST_INSERT_ID();
+			debug::property("session", $session);
+			debug::property("file", $file_id);
+		}else{
+			$file_id = $_FILES['file']['name'];
+			$check_file = $query_upload->whereSession($session)
+			->andUser_id($uid)
+			->andId($file_id)
+			->limit(1)
+			->select();
+			if(!$check_file->num()){
+				debug::error('file not found', 'upload', 'file');
+			}
+		}
+		
+		// exit();
+		// print_r($_FILES);
+		// print_r(apache_request_headers());
+		// debug::property("session", );
+		// $this->_processor();
 	}
+
+
 }
+/*
+Array
+(
+    [session] => 0
+)
+Array
+(
+    [file] => Array
+        (
+            [name] => friday.mp3
+            [type] => application/octet-stream
+            [tmp_name] => /tmp/phpl7IiQF
+            [error] => 0
+            [size] => 200000
+        )
+
+)
+ */
 ?>

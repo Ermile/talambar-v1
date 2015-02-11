@@ -17,10 +17,10 @@ class controller extends \mvc\controller
 		$mychild	 = $this->child();
 
 		// show all data on this subdomain
-		$x = $this->post('upload')->ALL();
+		$x = $this->post('upload')->ALL('upload');
 
-		$this->get()->ALL();
-		$this->post('folder')->ALL("folder");
+		// $this->get()->ALL();
+		// $this->post('folder')->ALL("folder");
 	}
 
 }
