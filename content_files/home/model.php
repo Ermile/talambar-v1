@@ -39,7 +39,7 @@ class model extends \mvc\model
 	 * @param [boolean or int] 	$isFile    if is file is int and if is folder is null
 	 */
 	private function set_tree($parent_id, $name, $isFile = null){
-		$uid = $_SESSION['user']['id'];
+		$uid = $this->login('id');
 		$sql = $this->sql("set_tree")->tableAttachments();
 		if($isFile !== null){
 			$sql->setAttachment_type('file');
@@ -65,7 +65,7 @@ class model extends \mvc\model
 	 * @return [int]       		parent_id
 	 */
 	private function getFolder_id($addr, $name, $isFile = null){
-		$uid = $_SESSION['user']['id'];
+		$uid = $this->login('id');
 		if($addr == "/") $parent_id = "#NULL";
 		else{
 			$sAddr = explode("/", $addr);
@@ -108,7 +108,7 @@ class model extends \mvc\model
 
 	public function post_upload(){
 		$tmp = root.'../tmp-upd/';
-		$uid = $_SESSION['user']['id'];
+		$uid = $this->login('id');
 		$session = utility::post("session");
 		$file = $_FILES['file'];
 		if($session == '0'){
