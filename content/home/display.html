@@ -1,29 +1,42 @@
 {%extends display.mvc%}
 {%block body_def%}
-<div class="topic light1">
- <div class="body row">
-  <div class="span5">
-   <h2>{%trans "Talambar"%}</h2>
+<div class="topic ">
+ <div class="body row auto2">
+  <div class="span5 relative">
+   <section>
+    <img id='logo' src="{{url.static}}images/logo.svg" alt=''>
+    <h2>{%trans "Talambar"%}</h2>
+    <p>{%trans%}Another cloud storage!{%endtrans%} {%trans%}Indeed we respect for privacy and try to providing maximum security for your files.{%endtrans%}</p>
+{%if not global.login%}
+    <div class='buttons'>
+     <a href='features' class='button' data-action>{%trans "Learn more"%}</a>
+     <div class='or' data-text='{%trans "or"%}'></div>
+     <a href='{{url.LoginService}}/signup' class='button primary'>{%trans "Signup"%}</a>
+    </div>
+{%endif%}
+   </section>
+
 {%if global.login%}
-   <a href="{{url.MainService}}/logout" class='button negative'>{%trans "Logout"%}</a>
+   <a href="{{url.MainService}}/logout" class='btnlogin button negative'>{%trans "Logout"%}</a>
 {%else%}
-   <a href="{{url.LoginService}}/login" class='button positive'>{%trans "Login"%}</a>
+   <a href="{{url.LoginService}}/login" class='btnlogin button positive'>{%trans "Login"%}</a>
 {%endif%}
   </div>
 
   <div class="span7">
-   <img src="{{url.static}}images/logo.svg" alt="">
+   <img src="{{url.static}}images/slogan.png" alt='{%trans "Security. Privacy. Simply."%}'>
   </div>
  </div>
 
-   <h3 id="slogan">{%trans "Security. Privacy. Simply."%}</h3>
-	 <select id="langlist">
-	{%for key, value in global.langlist%}{%if key == global.lang%}
-	  <option class="{{key}}" value="{{key}}" selected="selected">{{value}}</option>
-	{%else%}
-	  <option value="{{key}}">{{value}}</option>
-	{%endif%}{% endfor %}
-	 </select>
+  <div id='languages' class='hint--right' data-hint='{%trans "Experience our service in your language"%}'>
+   <select id='langlist'>
+{%for key, value in global.langlist%}{%if key == global.lang%}
+    <option value="{{key}}" selected="selected">{{value}}</option>
+{%else%}
+    <option value="{{key}}">{{value}}</option>
+{%endif%}{% endfor %}
+   </select>
+  </div>
 
 </div>
 {%endblock%}
