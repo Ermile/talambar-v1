@@ -99,6 +99,8 @@
 function filterByURL(files) {
   var url = location.pathname.slice(1).split('/');
 
+  if(url[0] === '') return '';
+  
   var current = files.findObject({name: url[0], parent: ''});
   (function() {
     if(!current) return;
@@ -107,7 +109,8 @@ function filterByURL(files) {
       current = files.findObject({name: url[i], parent: current.id.getValue()});
     }
   })();
-  var parent = current ? current.id.getValue() : '';
+
+  var parent = current ? current.id.getValue() : null;
 
   return parent;
 }
