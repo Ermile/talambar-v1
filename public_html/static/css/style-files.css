@@ -67,3 +67,7 @@
   color: gray;
   font-style: italic;
 }
+
+.file span, .folder span {
+  margin: 0 10px;
+}

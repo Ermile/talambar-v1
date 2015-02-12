@@ -1,17 +1,27 @@
 (function() {
-  var fileList = new Cortex({});
+  var fileList = new Cortex([]);
   var filesTree = new Cortex({});
 
+  window.fileList = fileList;
+
   var $breadcrumbs = React.render(BreadcrumbView({items: []}), document.getElementById('breadcrumb-wrapper'));
-
   var $tree = React.render(TreeView({items:{}}), document.getElementById('tree-wrapper'));
-
   var $files = $('#files');
 
+  var trigger = true;
+
   fileList.on('update', function(d) {
+    if(!trigger) return;
+    var parent = filterByURL(fileList);
+
+    trigger = false;
+    setChildren(fileList, parent);
+    trigger = true;
+
     component.setProps({items: d.getValue()});
 
     filesTree.set(objectifyFiles(fileList, getChildren(fileList, "")));
+
     $(document).trigger('navigate:done');
   });
 
@@ -25,16 +35,24 @@
     url: location.pathname,
     replace: true
   }).done(function() {
-    fileList.set(JSON.parse(history.state.tree));
+    var obj = JSON.parse(history.state.tree);
+    fileList.set(obj);
 
     var parent = filterByURL(fileList);
+
+    setChildren(fileList, parent);
+
     component.setProps({
       parent: parent
     });
   });
 
+
   $(window).on('statechange', function() {
     var parent = filterByURL(fileList);
+
+    setChildren(fileList, parent);
+
     component.setProps({
       parent: parent
     });
@@ -100,7 +118,7 @@ function filterByURL(files) {
   var url = location.pathname.slice(1).split('/');
 
   if(url[0] === '') return '';
-  
+
   var current = files.findObject({name: url[0], parent: ''});
   (function() {
     if(!current) return;
@@ -127,6 +145,20 @@ function objectifyFiles(files, filtered, url) {
   });
 
   return tree;
+}
+
+function setChildren(files, parent) {
+  var children = getChildren(files, parent);
+
+  children.forEach(function(child, i) {
+    if(child.type.val() !== 'folder' || child.hasKey('disabled')) return;
+
+    var subchilds = getChildren(files, child.id.val()).count();
+
+    var ref = files.findObject({id: child.id.val()});
+
+    ref.add('children', subchilds);
+  });
 }
 
 function getChildren(files, id) {

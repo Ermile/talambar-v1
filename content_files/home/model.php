@@ -9,7 +9,7 @@ class model extends \mvc\model
 		$myid = $this->login('id');
 
 		// create query for get by folders name and ordered by depth
-		$qry   = $this->sql()->tableAttachments()->whereUser_id($myid)->andAttachment_type('folder')
+		$qry   = $this->sql()->tableAttachments()->whereUser_id($myid)
 		->orderAttachment_depth('ASC')->orderAttachment_order('ASC')->select();
 
 		$mydatatable = array();
