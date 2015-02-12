@@ -16,10 +16,11 @@ class model extends \mvc\model
 		foreach ($qry->allassoc() as $row)
 		{
 			$mydatatable[] = array(
-				'name'     => $row['attachment_title'],
+				'name'   => $row['attachment_title'],
 				'id'     => $row['id'],
 				'type'   => $row['attachment_type'],
 				'ext'    => $row['attachment_ext'],
+				'size'   => $row['attachment_size'],
 				'count'  => $row['attachment_count'],
 				'order'  => $row['attachment_order'],
 				'parent' => $row['attachment_parent'],
