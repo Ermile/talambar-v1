@@ -30,19 +30,9 @@
 .rtl .tree ul:before{left:auto;border-left:none;right:0;border-right:1px solid}
 .rtl .tree ul li:before{left:auto;right:0}
 
-.files-box{
-	padding: 0;
-}
-
-.files-box .span10{border-top: 1px solid #B64436;
-border-left: 1px solid #eee;
- box-sizing: border-box;
-}
-
-
-
-
-
+.files-box{padding: 0;}
+.files-box .span10{box-sizing: border-box;border-top: 1px solid #B64436;border-left: 1px solid #333;}
+.rtl .files-box .span10{border-left:none;border-right: 1px solid #333;}
 
 
 /*-------------------------

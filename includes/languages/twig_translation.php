@@ -3,7 +3,7 @@ function transtext()
 {
 
 	//---------------------avad/supervisor/projects/talambar/content/home/display.html
-	echo T_("Talambar");                                                              // Line 8
+	echo T_("Talambar");                                                              // Line 20
 	echo T_("Another cloud storage!");                                                // Line 9 Seperate
 	echo T_("Indeed we respect for privacy and try to providing maximum security for your files.");// Line 9 Seperate
 	echo T_("Learn more");                                                            // Line 12
@@ -31,6 +31,8 @@ function transtext()
 	//-------------------avad/supervisor/projects/talambar/content_cp/main/layout.html
 
 	//---------------avad/supervisor/projects/talambar/content_files/home/display.html
+	echo T_("Upload");                                                                // Line 26
+	echo T_("Create new folder");                                                     // Line 29
 	echo T_("Create a new Folder");                                                   // Line 65 Seperate
 	echo T_("folder");                                                                // Line 68
 	echo T_("sumbit");                                                                // Line 69

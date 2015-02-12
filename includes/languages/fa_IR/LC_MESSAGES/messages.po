@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ermile\n"
-"POT-Creation-Date: 2015-02-12 06:15+0330\n"
-"PO-Revision-Date: 2015-02-12 06:19+0330\n"
+"POT-Creation-Date: 2015-02-12 07:58+0330\n"
+"PO-Revision-Date: 2015-02-12 07:59+0330\n"
 "Last-Translator: Javad Evazzadeh <J.Evazzadeh@gmail.com>\n"
 "Language-Team: Ermile\n"
 "Language: fa_IR\n"
@@ -265,7 +265,7 @@ msgid "file"
 msgstr "فایل"
 
 #: ../../../.././includes/cls/database/ermile/translation.php:53
-#: ../../../.././includes/languages/twig_translation.php:35
+#: ../../../.././includes/languages/twig_translation.php:37
 msgid "folder"
 msgstr "پوشه"
 
@@ -595,7 +595,7 @@ msgid "files"
 msgstr "فایل ها"
 
 #: ../../../.././includes/cls/database/ermile/translation.php:164
-#: ../../../.././includes/languages/twig_translation.php:47
+#: ../../../.././includes/languages/twig_translation.php:49
 msgid "Files"
 msgstr "فایل ها"
 
@@ -1575,30 +1575,38 @@ msgid "Cancel"
 msgstr "کنسل"
 
 #: ../../../.././includes/languages/twig_translation.php:34
+msgid "Upload"
+msgstr "آپلود"
+
+#: ../../../.././includes/languages/twig_translation.php:35
+msgid "Create new folder"
+msgstr "ساخت پوشه جدید"
+
+#: ../../../.././includes/languages/twig_translation.php:36
 msgid "Create a new Folder"
 msgstr "پوشه جدید بسازید"
 
-#: ../../../.././includes/languages/twig_translation.php:36
+#: ../../../.././includes/languages/twig_translation.php:38
 msgid "sumbit"
 msgstr "تایید"
 
-#: ../../../.././includes/languages/twig_translation.php:37
+#: ../../../.././includes/languages/twig_translation.php:39
 msgid "Why!"
 msgstr "چرا!"
 
-#: ../../../.././includes/languages/twig_translation.php:38
+#: ../../../.././includes/languages/twig_translation.php:40
 msgid "Ermile is our brand"
 msgstr "ارمایل نام برند ماست"
 
-#: ../../../.././includes/languages/twig_translation.php:43
+#: ../../../.././includes/languages/twig_translation.php:45
 msgid "Please select one item"
 msgstr "لطفا یک گزینه را انتخاب کنید"
 
-#: ../../../.././includes/languages/twig_translation.php:46
+#: ../../../.././includes/languages/twig_translation.php:48
 msgid "Home Page"
 msgstr "صفحه نخست"
 
-#: ../../../.././includes/languages/twig_translation.php:48
+#: ../../../.././includes/languages/twig_translation.php:50
 msgid "Control Panel"
 msgstr "کنترل پنل"
 
