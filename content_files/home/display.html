@@ -12,41 +12,46 @@
  <script src='{{url.static}}js/files-folders.js'></script>
 {%endblock%}
 
+
 {%block body_def%}
+<div class="row" id='header'>
+ <div class="logo">
+  <img src="{{url.static}}images/logo.svg" alt='' />
+  <span>{%trans "Talambar"%}</span>
+ </div>
 
-<div class="header">
-
-<div class="bottom">
-  
-  <div class="controls">
-      <a class="upload" href="">
-      <i class="fa fa-upload"></i>
-    </a>
-    <a class="folder" href="">
-      <i class="fa fa-folder"></i>
-    </a> 
+ <div class="controls">
+  <div class="bottom">
+   <a class="labeled icon button">
+    <i class="icon fa fa-upload"></i>{%trans "Upload"%}
+   </a>
+   <a class="labeled icon button" data-method="post" data-modal="delete-confirm">
+    <i class="icon fa fa-folder"></i>{%trans "Create new folder"%}
+   </a>
   </div>
+ </div>
 
-  <div id='breadcrumb-wrapper'>
-    <ul class="fbreadcrumb">
-    
-    </ul>
-  </div>
-
-</div>
+  <div id='breadcrumb-wrapper'><ul class="fbreadcrumb"></ul></div>
 </div>
 
 
+<div class="row auto files-box">
+ <div class="span10">
+  <div class="filemanager" id="files"> </div>
+ </div>
+ <div class="span2">
+  <div id="tree-wrapper" class="tree"></div>
+ </div>
+</div>
 
-<div>
 
 
 
-<br />
- <button type="button" data-method="post" data-modal="delete-confirm">Create Folder</button>
-<br />
 
 
+
+
+<br /><hr /><br />
  <form id='upload_form' method="post" >
   <label for='file_input'>File</label>
   <input type='file' id='file_input'>
@@ -54,19 +59,13 @@
   <button id='pause' name="pause">Pause</button>
   <button id='resume' name="resume">Resume</button>
  </form>
-</div>
+<br /><br /><br />
 
 
 
 
-<div class="filemanager" id="files"> 
 
-</div>
 
-<p>File Tree</p>
-<div id="tree-wrapper">
-
-</div>
 
 <div class='modal hidden modal-delete-confirm' id='delete-confirm' data-modal>
  <div class='modal-dialog'>

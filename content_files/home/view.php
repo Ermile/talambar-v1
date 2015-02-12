@@ -9,7 +9,6 @@ class view extends \mvc\view
 		$this->include->css         = false;
 		$this->include->fontawesome = true;
 
-		$this->data->bodyclass      = 'fixed';
 		$this->data->location       = $this->url('path', -1);
 
 		$this->global->tree         = json_encode($this->model()->tree());		
