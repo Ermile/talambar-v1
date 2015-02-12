@@ -14,16 +14,16 @@ class controller extends \mvc\controller
 
 
 		$mymodule = $this->module();
-		$mychild	 = $this->child();
 
 		// show all data on this subdomain
 		$x = $this->post('upload')->ALL('upload');
 		$x = $this->get('killSession')->ALL('killSession');
 		$x = $this->get('resume')->ALL('resume');
-
-		// $this->get()->ALL();
 		// $this->post('folder')->ALL("folder");
-	}
 
+
+		// please don't comment below line!
+		$this->get()->ALL();
+	}
 }
 ?>
