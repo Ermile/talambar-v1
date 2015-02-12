@@ -47,3 +47,23 @@
 .rtl .fbreadcrumb li{float:right;margin-right:5px;margin-left:0}
 .rtl .fbreadcrumb .fa{margin-left:5px;margin-right:0}
 
+
+/*-------------------------
+  File List
+-------------------------*/
+
+#newform input {
+  border: none;
+  background: none;
+  border-bottom: 1px solid gray;
+  box-shadow: none;
+}
+
+#newform.hidden {
+  display: none;
+}
+
+.file.disabled, .folder.disabled {
+  color: gray;
+  font-style: italic;
+}

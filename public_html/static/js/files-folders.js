@@ -43,39 +43,58 @@
       'items': location.pathname.slice(1).split('/')
     });
   });
-})();
 
-$(document).ready(function() {
-  var filemanager = $('.filemanager');
+  $(document).ready(function() {
+    var filemanager = $('.filemanager');
 
-  var fm;
+    var fm;
 
-  $('#upload_form').submit(function(e) {
-    e.preventDefault();
-  });
-
-  $('#upload').click(function(e) {
-    e.preventDefault();
-    fm = new FileManager({
-      file: $('#file_input').get(0).files[0],
-      ajax: {
-        url: 'http://files.talambar.dev'
-      }
+    $('#upload_form').submit(function(e) {
+      e.preventDefault();
     });
 
-    fm.upload();
-  });
+    $('#upload').click(function(e) {
+      e.preventDefault();
+      fm = new FileManager({
+        file: $('#file_input').get(0).files[0],
+        ajax: {
+          url: 'http://files.talambar.dev'
+        }
+      });
 
-  $('#resume').click(function(e) {
-    e.preventDefault();
-    fm.resume();
-  });
+      fm.upload();
+    });
 
-  $('#pause').click(function(e) {
-    e.preventDefault();
-    fm.pause();
+    $('#resume').click(function(e) {
+      e.preventDefault();
+      fm.resume();
+    });
+
+    $('#pause').click(function(e) {
+      e.preventDefault();
+      fm.pause();
+    });
+
+    var $newform = $('#newform');
+
+    $('#newfolder').click(function(e) {
+      e.preventDefault();
+      $newform.removeClass('hidden');
+    });
+
+    $newform.find('form').submit(function(e) {
+      $newform.find('[name="address"]').val(location.pathname);
+      $newform.addClass('hidden');
+
+      fileList.push({
+        name: $newform.find('[name="name"]').val(),
+        parent: component.props.parent,
+        type: 'folder',
+        disabled: true
+      });
+    });
   });
-});
+})();
 
 function filterByURL(files) {
   var url = location.pathname.slice(1).split('/');
