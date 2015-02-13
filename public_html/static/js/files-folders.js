@@ -8,15 +8,17 @@
   var $tree = React.render(TreeView({items:{}}), document.getElementById('tree-wrapper'));
   var $files = $('#files');
 
-  var trigger = true;
+  var trigger = true,
+      time = Date.now();
 
   fileList.on('update', function(d) {
+    if(Date.now() - time > 200) trigger = true;
     if(!trigger) return;
     var parent = filterByURL(fileList);
 
     trigger = false;
+    time = Date.now();
     setChildren(fileList, parent);
-    trigger = true;
 
     component.setProps({items: d.getValue()});
 
