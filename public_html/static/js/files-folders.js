@@ -73,13 +73,16 @@
       e.preventDefault();
     });
 
+    var $socket = $('#socket').get(0);
+
     $('#upload').click(function(e) {
       e.preventDefault();
       fm = new FileManager({
         file: $('#file_input').get(0).files[0],
         ajax: {
           url: 'http://files.talambar.dev'
-        }
+        },
+        socket: socket.checked
       });
 
       fm.upload();
