@@ -9,21 +9,38 @@
 #header .controls .fa-upload{color: #d04332;}
 #header .controls .fa-folder{color: #d2b43e;}
 #header #breadcrumb-wrapper{padding:5px 0;}
+#header .right{float:right;margin-right:1em}
 .labeled.icon.button > .icon {font-size: 1.2em}
+#header .link{font-size: 2em;color:#7c7c7c;}
+#header .link:hover{color:#999;}
 
 .rtl #header > div{float:right;}
 .rtl #header .logo img{float:left;}
 .rtl #header .logo span{margin-right:15px;}
 
+input.upload {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+
 
 /* Tree */
-.tree,.tree ul{margin:0;padding:0;list-style:none}
+.tree{padding: 2em !important}
+.tree,.tree ul{margin:0;padding:0;list-style:none;}
 .tree ul{margin-left:1em;position:relative}
 .tree ul ul{margin-left:.5em}
-.tree ul:before{content:"";display:block;width:0;position:absolute;top:0;bottom:0;left:0;border-left:1px solid}
+.tree ul:before{content:"";display:block;width:0;position:absolute;top:0;bottom:0;left:0;}
 .tree li{margin:0;padding:0 1.5em;line-height:2em;color:#369;font-weight:700;position:relative}
-.tree ul li:before{content:"";display:block;width:10px;height:0;border-top:1px solid;margin-top:-1px;position:absolute;top:1em;left:0}
+.tree ul li:before{color:#7c7c7c;content:"\f061";font:normal normal normal 1em/0 FontAwesome;display:block;width:10px;height:0;margin-top:-1px;position:absolute;top:1em;left:0}
 .tree ul li:last-child:before{background:#fff;height:auto;top:1em;bottom:0}
+
+.tree a{color:#7c7c7c;}
 
 .rtl .tree ul{margin-left:0;margin-right:1em;}
 .rtl .tree ul ul{margin-left:0;margin-right:.5em}
