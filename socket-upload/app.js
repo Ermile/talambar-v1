@@ -16,19 +16,17 @@ server.on('connection', function(client) {
     addFile(meta, client.id, function(err, file, filepart, attachment) {
       if(err) return console.log('Error: ', err);
 
-      if(stream._ended) {
+      stream.on('end', function() {
+        console.log('end');
         filepart.destroy();
         moveFile(name, file.id);
         file.update({file_code: null});
-      } else {
-        stream.on('end', function() {
-          filepart.destroy();
-          moveFile(name, file.id);
-          file.update({file_code: null});
-        });
-      }
+      });
     });
 
+    stream.on('error', function(e) {
+      console.log('Error', e);
+    });
   });
 });
 

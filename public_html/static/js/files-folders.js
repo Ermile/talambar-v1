@@ -79,13 +79,15 @@
       e.preventDefault();
       fm = new FileManager({
         file: $('#file_input').get(0).files[0],
-        ajax: {
-          url: 'http://files.talambar.dev'
-        },
-        socket: socket.checked
       });
 
       fm.upload();
+
+      var $progress = $('#progress');
+
+      fm.on('upload:progress', function(e, data) {
+        $progress.css('width', data.percentage + '%').text(Math.floor(data.percentage) + '%');
+      });
     });
 
     $('#resume').click(function(e) {
