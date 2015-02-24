@@ -1,41 +1,55 @@
-var BinaryServer = require('binaryjs').BinaryServer,
+var io = require('socket.io')(8000),
     fs = require('fs'),
     asyn = require('async'),
     db = require('./db');
 
-var server = BinaryServer({port: 8000});
+var UPLOAD_DIR = __dirname + '/uploads/';
 
-server.on('connection', function(client) {
-  client.on('stream', function(stream, meta) {
-    var hash = Math.random().toString(16).slice(2);
-    var name = hash + Date.now() + meta.file;
-    var fileStream = fs.createWriteStream(__dirname + '/uploads/' + name);
+io.on('connection', function(socket) {
+  console.log('socket', socket.id);
+  socket.on('meta', function(meta) {
+    socket.meta = meta;
+    if(meta.fileID) {
+      updateFile(meta.fileID, socket.id, answerMeta.bind(socket));
+    } else {
+      addFile(meta, socket.id, answerMeta.bind(socket));
+    }
+  });
+  socket.on('data', function(data) {
+    if(!socket.meta || !socket.fs) return;
 
-    stream.pipe(fileStream);
+    socket.fs.write(data);
 
-    addFile(meta, client.id, function(err, file, filepart, attachment) {
-      if(err) return console.log('Error: ', err);
+    socket.emit('data-answer');
+  });
 
-      stream.on('end', function() {
-        console.log('end');
-        filepart.destroy();
-        moveFile(name, file.id);
-        file.update({file_code: null});
-      });
-    });
+  socket.on('resume-status', function(data) {
+    console.log('resume-status', data);
+    if(!data || !data.fileID) {
+      socket.emit('resume-status', 0);
+      return;
+    }
 
-    stream.on('error', function(e) {
-      console.log('Error', e);
+    fs.stat(UPLOAD_DIR + data.fileID, function(err, stats) {
+      if(err) return console.log('ERR', err);
+      console.log(stats.size);
+      socket.emit('resume-status', stats.size);
     });
   });
+
+  var des = destroyRecords.bind(socket);
+
+  socket.on('end', des);
+  socket.on('disconnect', des);
+  socket.on('error', des);
 });
 
-function addFile(meta, clientId, cb) {
+function addFile(meta, socketId, cb) {
   asyn.waterfall([
     function(next) {
       db.File.create({
         file_folder: meta.parent,
-        file_code: clientId,
+        file_code: socketId,
         file_size: meta.size,
         file_status: 'inprogress'
       }).then(function(file) {
@@ -46,7 +60,7 @@ function addFile(meta, clientId, cb) {
       db.FilePart.create({
         file_id: file.id,
         filepart_part: 0,
-        filepart_code: clientId,
+        filepart_code: socketId,
         filepart_status: 'inprogress'
       }).then(function(filepart) {
         next(null, file, filepart);
@@ -70,6 +84,56 @@ function addFile(meta, clientId, cb) {
   ], cb);
 }
 
+function updateFile(id, socketId, cb) {
+  asyn.waterfall([
+    function(next) {
+      db.File.find(id).then(function(file) {
+        next(null, file);
+      }, next);
+    },
+    function(file, next) {
+      db.FilePart.findOrCreate({
+        where: {
+          file_id: id
+        },
+        file_id: id,
+        filepart_part: 0,
+        filepart_code: socketId,
+        filepart_status: 'inprogress'
+      }).then(function(filepart) {
+        next(null, file, filepart);
+      }, next);
+    },
+    function(file, filepart, next) {
+      db.Attachment.find({where: {file_id: id}})
+      .then(function(attachment) {
+        next(null, file, filepart, attachment, true);
+      }, next);
+    }
+  ], cb);
+}
+
 function moveFile(name, id) {
-  fs.renameSync(__dirname + '/uploads/' + name, __dirname + '/uploads/' + id);
+  fs.renameSync(UPLOAD_DIR + name, UPLOAD_DIR + id);
+}
+
+
+/* this => socket */
+function answerMeta(err, file, filepart, attachment) {
+  if(err) return console.log('Error: ', err);
+
+  console.log('answerMeta');
+
+  this.fs = fs.createWriteStream(UPLOAD_DIR + file.id, {flags: 'a'});
+
+  this.file = file;
+  this.filepart = filepart;
+  this.emit('ready', file.id);
+}
+
+function destroyRecords() {
+  if(this.filepart && this.file) {
+    this.filepart.destroy();
+    this.file.update({file_code: null});
+  }
 }

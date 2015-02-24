@@ -10,8 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "async": "^0.9.0",
-    "binaryjs": "^0.2.1",
     "mysql": "^2.5.4",
-    "sequelize": "^2.0.3"
+    "sequelize": "^2.0.3",
+    "socket.io": "^1.3.4"
   }
 }
