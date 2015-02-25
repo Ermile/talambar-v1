@@ -17,6 +17,7 @@
    </section>
 
 {%if global.login%}
+   <a href="http://files.{{url.raw}}" class='button'>{%trans "Files"%}</a>
    <a href="{{url.MainService}}/logout" class='btnlogin button negative'>{%trans "Logout"%}</a>
 {%else%}
    <a href="{{url.LoginService}}/login" class='btnlogin button positive'>{%trans "Login"%}</a>
