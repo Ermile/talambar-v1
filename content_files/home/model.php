@@ -24,6 +24,7 @@ class model extends \mvc\model
 				'count'  => $row['attachment_count'],
 				'order'  => $row['attachment_order'],
 				'parent' => $row['attachment_parent'],
+				'status' => $row['attachment_status'],
 				);
 		}
 		return $mydatatable;
