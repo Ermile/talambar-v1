@@ -35,7 +35,8 @@
 
   Navigate({
     url: location.pathname,
-    replace: true
+    replace: true,
+    data: true
   }).done(function() {
     var obj = JSON.parse(history.state.tree);
     fileList.set(obj);
