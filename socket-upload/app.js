@@ -6,8 +6,8 @@ var io = require('socket.io')(8000),
 var UPLOAD_DIR = __dirname + '/uploads/';
 
 io.on('connection', function(socket) {
-  console.log('socket', socket.id);
   socket.on('meta', function(meta) {
+    console.log(meta);
     socket.meta = meta;
     if(meta.fileID) {
       updateFile(meta.fileID, socket.id, answerMeta.bind(socket));
@@ -18,13 +18,13 @@ io.on('connection', function(socket) {
   socket.on('data', function(data) {
     if(!socket.meta || !socket.fs) return;
 
-    socket.fs.write(data);
+    socket.fs.write(data, function() {
+      socket.emit('data-answer');
+    })
 
-    socket.emit('data-answer');
   });
 
   socket.on('resume-status', function(data) {
-    console.log('resume-status', data);
     if(!data || !data.fileID) {
       socket.emit('resume-status', 0);
       return;
@@ -34,6 +34,7 @@ io.on('connection', function(socket) {
       if(err) return console.log('ERR', err);
       console.log(stats.size);
       socket.emit('resume-status', stats.size);
+      console.log(socket.fs);
     });
   });
 
@@ -48,10 +49,11 @@ function addFile(meta, socketId, cb) {
   asyn.waterfall([
     function(next) {
       db.File.create({
-        file_folder: meta.parent,
+        file_folder: meta.parent || 0,
         file_code: socketId,
         file_size: meta.size,
-        file_status: 'inprogress'
+        file_status: 'inprogress',
+        file_server: 1
       }).then(function(file) {
         next(null, file);
       }, next);
@@ -123,7 +125,6 @@ function answerMeta(err, file, filepart, attachment) {
   if(err) return console.log('Error: ', err);
 
   console.log('answerMeta');
-
   this.fs = fs.createWriteStream(UPLOAD_DIR + file.id, {flags: 'a'});
 
   this.file = file;

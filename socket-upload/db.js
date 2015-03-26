@@ -13,10 +13,11 @@ var File = db.define('files', {
   },
   file_server: Sequelize.INTEGER(5),
   file_folder: Sequelize.INTEGER(5),
-  file_name: Sequelize.INTEGER(10),
+  // file_name: Sequelize.INTEGER(10),
   file_code: Sequelize.STRING(64),
   file_size: Sequelize.FLOAT(12, 0),
   file_status: Sequelize.ENUM('init', 'inprogress', 'ready', ''),
+  file_server: Sequelize.INTEGER(5),
   date_modified: Sequelize.TIME
 }, {
   timestamps: false

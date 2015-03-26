@@ -27,7 +27,7 @@
   </div> 
  <div class="controls">
   <div class="bottom">
-   <a class="labeled icon button">
+   <a class="labeled icon button" data-modal="upload_modal">
     <i class="icon fa fa-upload"></i>{%trans "Upload"%}
    </a>
    <a class="labeled icon button" id="newfolder" data-action>
@@ -45,8 +45,23 @@
 </div>
 
 
+<div class='modal hidden' data-modal id="upload_modal">
+  <div class='modal-dialog'>
+    <form id="upload_form">
+      <label for='file_input'>Select your file</label>
+      <input type='file' id='file_input'>
+      <button id="upload">Upload</button>
+      <button id="pause">Pause</button>
+      <button id="resume">Resume</button>
+      <button data-cancel type="button">Cancel</button>
 
-<br /><hr />Test Area!<br /><br />
+      <div id="progress" style="height: 30px; width: 0%; background: #8AD1FD;"></div>
+    </form>
+  </div>
+</div>
+
+
+<!-- <br /><hr />Test Area!<br /><br />
 
  <form id='upload_form' method="post" >
   <label for='file_input'>File</label>
@@ -57,7 +72,7 @@
   <div style="width: 0%; height:25px; background: #27F16B; clear: both; display: block" id="progress"></div>
  </form>
 <br /><br /><br />
-
+ -->
 
 <footer id="footer">
   <div id="copyright">
