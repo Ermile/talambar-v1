@@ -23,8 +23,8 @@
  </div>
   <div class="right">
     <a href="#" class="link"><i class="fa fa-cog"></i></a>
-    <a href="#" class="link"><i class="fa fa-bars"></i></a>    
-  </div> 
+    <a href="#" class="link"><i class="fa fa-bars"></i></a>
+  </div>
  <div class="controls">
   <div class="bottom">
    <a class="labeled icon button" data-modal="upload_modal">
@@ -48,11 +48,12 @@
 <div class='modal hidden' data-modal id="upload_modal">
   <div class='modal-dialog'>
     <form id="upload_form">
+      <img class='hidden' id='file_preview'>
       <label for='file_input'>Select your file</label>
       <input type='file' id='file_input'>
       <button id="upload">Upload</button>
-      <button id="pause">Pause</button>
-      <button id="resume">Resume</button>
+      <button id="pause" type="button">Pause</button>
+      <button id="resume" type="button">Resume</button>
       <button data-cancel type="button">Cancel</button>
 
       <div id="progress" style="height: 30px; width: 0%; background: #8AD1FD;"></div>
