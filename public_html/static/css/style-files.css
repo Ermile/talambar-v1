@@ -1,3 +1,4 @@
+body.dragover {background:#eee}
 
 #header{background: url('../images/pattern.png') repeat;height: 60px;width: 100%;position: relative;padding:0;overflow: hiddens}
 #header > div{float:left;margin-right:30px;}
@@ -32,7 +33,7 @@ input.upload {
   filter: alpha(opacity=0);
 }
 
-#files ul li{padding:5px 0;border-radius:3px}
+#files ul li{float:left;padding:5px 0;border-radius:3px}
 #files ul li:hover{background-color:#eee;}
 #files ul li span{float:left;min-width:200px;margin: 0 10px;}
 

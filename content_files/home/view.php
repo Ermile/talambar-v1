@@ -8,6 +8,7 @@ class view extends \mvc\view
 		$this->include->js          = false;
 		$this->include->css         = false;
 		$this->include->fontawesome = true;
+		$this->data->bodyclass      = 'unselectable';
 
 		$this->data->location       = $this->url('path', -1);
 
