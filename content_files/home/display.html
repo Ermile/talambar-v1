@@ -7,8 +7,6 @@
 
 {%block foot_js%}
  <script src='{{url.static}}js/filemanager.js'></script>
- <script src='{{url.static}}js/mv.js'></script>
- <script src='{{url.static}}js/views.js'></script>
  <script src='{{url.static}}js/files-folders.js'></script>
 {%endblock%}
 
@@ -32,6 +30,9 @@
    </a>
    <a class="labeled icon button" id="newfolder" data-action>
     <i class="icon fa fa-folder"></i>{%trans "Create new folder"%}
+   </a>
+   <a class="labeled icon button" id="select_all" data-action>
+    <i class="icon fa fa-check-square-o"></i>{%trans "Select All"%}
    </a>
   </div>
  </div>
