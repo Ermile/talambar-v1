@@ -71,4 +71,27 @@ define('SaveAsCookie', true);
  */
 define('LogVisitors', false);
 
+/**
+ * ControlPanel
+ * Default: false
+ *
+ * add saloos control panel to this project
+ */
+define('ControlPanel', true);
+
+/**
+ * Account
+ * Default: false
+ *
+ * add saloos Account manager to this project
+ */
+define('Account', 'ermile');
+
+/**
+ * LangList
+ * Default serialize (['fa_IR' => 'فارسی', 'en_US' => 'English'])
+ *
+ * List of Site languages
+ */
+define('LangList', serialize (['fa_IR' => 'فارسی', 'en_US' => 'English', 'ar_SA' => 'عربي']));
 ?>
