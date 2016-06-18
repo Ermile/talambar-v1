@@ -18,6 +18,7 @@ class view extends \lib\mvc\view
 
 		// $this->data->page['title']   = T_("Archiver");
 		$this->data->page['desc']    = T_("Talambar is Inteligent.");
+		$this->data->page['desc']    = $this->data->site['desc'];
 
 
 		// $this->url->MainStatic       = false;
