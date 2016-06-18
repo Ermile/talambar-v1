@@ -11,16 +11,16 @@
     <div class='buttons'>
      <a href='features' class='button' data-action>{%trans "Learn more"%}</a>
      <div class='or' data-text='{%trans "or"%}'></div>
-     <a href='{{url.LoginService}}/signup' class='button primary'>{%trans "Signup"%}</a>
+     <a href='{{url.LoginService}}/signup' data-direct class='button primary'>{%trans "Signup"%}</a>
     </div>
 {%endif%}
    </section>
 
 {%if global.login%}
-   <a href="http://files.{{url.raw}}" class='button'>{%trans "Files"%}</a>
-   <a href="{{url.MainService}}/logout" class='btnlogin button negative'>{%trans "Logout"%}</a>
+   <a href="http://{{url.raw}}/files" data-direct class='button'>{%trans "Files"%}</a>
+   <a href="{{url.MainService}}/logout" data-direct class='btnlogin button negative'>{%trans "Logout"%}</a>
 {%else%}
-   <a href="{{url.LoginService}}/login" class='btnlogin button positive'>{%trans "Login"%}</a>
+   <a href="{{url.LoginService}}/login" data-direct class='btnlogin button positive'>{%trans "Login"%}</a>
 {%endif%}
   </div>
 
