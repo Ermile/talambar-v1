@@ -15,6 +15,4 @@
  /** MySQL database password */
  define("db_pass", 'Ermile@#$1233');
 
-define('CommingSoon', true);
-
 ?>
