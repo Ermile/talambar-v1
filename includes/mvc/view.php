@@ -12,7 +12,8 @@ class view extends \lib\mvc\view
 		// define default value for global
 
 		$this->data->site['title']   = T_("Talambar");
-		$this->data->site['desc']    = T_("Talambar is new");
+		$this->data->site['desc']    = T_("Another cloud storage!"). ' '.
+			T_("Indeed we respect for privacy and try to providing maximum security for your files.");
 		$this->data->site['slogan']  = T_("Talambar is our project");
 
 		// $this->data->page['title']   = T_("Archiver");

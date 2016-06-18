@@ -1,43 +1,32 @@
 {%extends display.mvc%}
 {%block body%}
-<div class="topic ">
- <div class="body row auto2">
-  <div class="span5 relative">
-   <section>
-    <img id='logo' src="{{url.static}}images/logo.svg" alt=''>
-    <h2>{%trans "Talambar"%}</h2>
-    <p>{%trans%}Another cloud storage!{%endtrans%} {%trans%}Indeed we respect for privacy and try to providing maximum security for your files.{%endtrans%}</p>
-{%if not global.login%}
-    <div class='buttons'>
-     <a href='features' class='button' data-action>{%trans "Learn more"%}</a>
-     <div class='or' data-text='{%trans "or"%}'></div>
-     <a href='{{url.LoginService}}/signup' data-direct class='button primary'>{%trans "Signup"%}</a>
-    </div>
-{%endif%}
-   </section>
-
+<div class="container">
+ <div class="row auto">
+   <section class="span4 offset1">
+    <header>
+     <img id='logo' src="{{url.static}}images/logo.svg" alt='{%trans "talambar logo"%}'>
+     <h1>{%trans "Talambar"%}</h1>
+     <h2>{{site.desc}}</h2>
+    </header>
 {%if global.login%}
    <a href="http://{{url.raw}}/files" data-direct class='button'>{%trans "Files"%}</a>
    <a href="{{url.MainService}}/logout" data-direct class='btnlogin button negative'>{%trans "Logout"%}</a>
 {%else%}
-   <a href="{{url.LoginService}}/login" data-direct class='btnlogin button positive'>{%trans "Login"%}</a>
+    <div class='buttons'>
+     <div>
+       <a data-action href='{{url.base}}features' class="button">{%trans "Learn more"%}</a>
+       <div class='or' data-text='{%trans "or"%}'></div>
+       <a data-action href='{{url.LoginService}}/signup' class='button signup'>{%trans "Signup"%}</a>
+     </div>
+    </div>
+    <a data-direct href="{{url.LoginService}}/login" class='button login'>{%trans "Login"%}</a>
 {%endif%}
-  </div>
-
-  <div class="span7">
+   </section>
+  <div class="span7" id='slogan'>
    <img src="{{url.static}}images/slogan.png" alt='{%trans "Security. Privacy. Simply."%}'>
   </div>
  </div>
 
-  <div id='languages' class='hint--right' data-hint='{%trans "Experience our service in your language"%}'>
-   <select id='langlist'>
-{%for key, value in global.langlist%}{%if key == global.lang%}
-    <option value="{{key}}" selected="selected">{{value}}</option>
-{%else%}
-    <option value="{{key}}">{{value}}</option>
-{%endif%}{% endfor %}
-   </select>
-  </div>
 
 </div>
 {%endblock%}

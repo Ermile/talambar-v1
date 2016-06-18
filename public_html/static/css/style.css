@@ -1,8 +1,23 @@
-#languages{position: fixed;bottom: 10px;left: 10px;}
-.rtl #languages {right:10px;left: auto;}
 
-#logo {width:100px;position: absolute;top: 0;left: -100px;right: 150px;}
-
+header{font-size: 2.5em;position: relative;}
+#home h1{font-weight:bold;padding: 0.2em 1em;text-align: center;}
+#home h2{font-size: 0.7em;line-height: 1.9em;}
+.rtl#home h2{text-align: justify;}
 .relative{position: relative}
 .btnlogin{position: relative;margin-top:100px;}
+
+.signup{background-color:#21ba45;color:#fff}
+.signup:hover, .signup:focus{background-color:#16ab39;color: #fff}
+.login{background-color: #00b5ad;font-size: 4em;color:#fff;line-height: 2em;}
+.login:hover, .login:focus{background-color: #009c95;color:#fff;}
+
+#logo {width:100px;position: absolute;top: 0;left: -100px;transition:0.5s ease;}
+html:hover #logo{left: -50px;top:10px;}
+#slogan img{margin: 0 auto;display:block;padding-top: 1em;}
+
+.buttons{font-size: 2em;display: table;margin: 0 auto;}
+.buttons:after {content: ".";display: block;height: 0;clear: both;visibility: hidden;}
+.buttons a{float: left;border-radius: 2px;margin: 0;line-height: 1.7em;transition:0.3s;}
+
+
 
