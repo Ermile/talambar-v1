@@ -68,9 +68,6 @@ class view extends \mvc\view
 		}
 
 
-		$this->data->site['title']  = T_("Archiver");
-		$this->data->site['desc']   = T_("Archiver is new");
-		$this->data->site['slogan'] = T_("Ermile is our company");
 		$this->data->dir['right']   = $this->global->direction == 'rtl'? 'left':  'right';
 		$this->data->dir['left']    = $this->global->direction == 'rtl'? 'right': 'left';
 

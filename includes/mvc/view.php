@@ -41,15 +41,15 @@ class view extends \lib\mvc\view
 	 */
 	function options()
 	{
-		$this->data->feature['posts']             = false;
-		$this->data->feature['pages']             = false;
-		$this->data->feature['attachments']       = false;
-		$this->data->feature['tags']              = true;
-		$this->data->feature['categories']        = false;
-		$this->data->feature['users']             = true;
-		$this->data->feature['permissions']       = true;
-		$this->data->feature['options']['sms']    = false;
-		$this->data->feature['options']['social'] = false;
+		// $this->data->feature['posts']             = false;
+		// $this->data->feature['pages']             = false;
+		// $this->data->feature['attachments']       = false;
+		// $this->data->feature['tags']              = true;
+		// $this->data->feature['categories']        = false;
+		// $this->data->feature['users']             = true;
+		// $this->data->feature['permissions']       = true;
+		// $this->data->feature['options']['sms']    = false;
+		// $this->data->feature['options']['social'] = false;
 	}
 
 
