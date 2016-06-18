@@ -1,97 +1,80 @@
-{%extends display.mvc%}
+{%extends display.files%}
 
 
-{%block head_css%}
- <link rel="stylesheet"    href="{{url.static}}css/style-files.css?v=1.0.1">
-{%endblock%}
+{%block explorer%}
+{%if url.path != '' and false%}
+    <li class="up">
+      <span class='type fa fa-level-up'></span>
+      <span class='name'>..</span>
+      <span class='size'></span>
+      <span class='date'></span>
+    </li>
+{%endif%}
 
-{%block foot_js%}
- <script src='{{url.static}}js/filemanager.js'></script>
- <script src='{{url.static}}js/files-folders.js'></script>
-{%endblock%}
+{%if datatable%}
+{%for key, row in datatable%}
+    <li data-id="{{row.cid}}" class="{{row.type}} {{row.status}}">
+      <span class='type fa fa-{{row.icon}}'></span>
+      <span class='name'>{{row.name}}</span>
+      <span class='size'>{{row.size | readableSize(row.type, '-') }}</span>
+      <span class='date hint--bottom ltr' data-hint="{{row.date}}">{{row.date | sdate('day')}}</span>
+{%if perm.favorites.add%}
+      <span class="fav">
+        <i class="fa {{row.fav}}" data-action="/$/favorites" data-method="post"></i>
+      </span>
+{%endif%}
+    </li>
+{% endfor %}
 
-
-{%block body%}
-<div class="row" id='header'>
- <div class="logo">
-  <a href='{{url.root}}'>
-   <img src="{{url.static}}images/logo.svg" alt='' />
-   <span>{%trans "Talambar"%}</span>
-  </a>
- </div>
-  <div class="right">
-    <a href="#" class="link"><i class="fa fa-cog"></i></a>
-    <a href="#" class="link"><i class="fa fa-bars"></i></a>
-  </div>
- <div class="controls">
-  <div class="bottom">
-   <a class="labeled icon button" data-modal="upload_modal">
-    <i class="icon fa fa-upload"></i>{%trans "Upload"%}
-   </a>
-   <a class="labeled icon button" id="newfolder" data-action>
-    <i class="icon fa fa-folder"></i>{%trans "Create new folder"%}
-   </a>
-   <a class="labeled icon button" id="select_all" data-action>
-    <i class="icon fa fa-check-square-o"></i>{%trans "Select All"%}
-   </a>
-  </div>
- </div>
-  <div id='breadcrumb-wrapper'><ul class="fbreadcrumb"></ul></div>
-</div>
-
-
-<div class="row files-box">
- <div class="span2"><div id="tree-wrapper"></div></div>
- <div class="span10"><div class="filemanager" id="files"></div></div>
-</div>
-
-
-<div class='modal hidden' data-modal id="upload_modal">
-  <div class='modal-dialog'>
-    <form id="upload_form">
-      <img class='hidden' id='file_preview'>
-      <label for='file_input'>Select your file</label>
-      <input type='file' id='file_input'>
-      <button id="upload">Upload</button>
-      <button id="pause" type="button">Pause</button>
-      <button id="resume" type="button">Resume</button>
-      <button data-cancel type="button">Cancel</button>
-
-      <div id="progress" style="height: 30px; width: 0%; background: #8AD1FD;"></div>
-    </form>
-  </div>
-</div>
-
-
-<!-- <br /><hr />Test Area!<br /><br />
-
- <form id='upload_form' method="post" >
-  <label for='file_input'>File</label>
-  <input type='file' id='file_input'>
-  <button id='upload' name="upload">Upload</button>
-  <button id='pause' name="pause">Pause</button>
-  <button id='resume' name="resume">Resume</button>
-  <div style="width: 0%; height:25px; background: #27F16B; clear: both; display: block" id="progress"></div>
- </form>
-<br /><br /><br />
- -->
-
-<footer id="footer">
-  <div id="copyright">
-   <div class='hint--right' data-hint='{%trans "Ermile is our brand"%}'>
-    <span>&copy; {{'now'|date('Y')}}</span>
-    <a href="{{url.root}}" title="{{site.desc}}" tabindex="-1">{{site.title}}</a>
-   </div>
-
-   <div id='languages' class='hint--left' data-hint='{%trans "Experience our service in your language"%}'>
-    <select id="langlist">
-{%for key, value in global.langlist%}{%if key == global.lang%}
-     <option value="{{key}}" selected="selected">{{value}}</option>
 {%else%}
-     <option value="{{key}}">{{value}}</option>
-{%endif%}{% endfor %}
-    </select>
-   </div>
-  </div>
-</footer>
+
+ {%if module == 'home'%}
+    <p class="alert alert-info"><strong>{%trans "Hello!"%}</strong> {%trans "You can create a folder or upload new file to this location"%}</p>
+ {%elseif module == '$'%}
+
+  {%if child == 'search'%}
+    <p class="alert alert-error fade">{%trans "No Results"%}</p>
+  {%elseif child == 'result'%}
+   {%if appResult%}
+    <p class="alert alert-success fade">{%trans "Save the result of app"%}</p>
+   {%else%}
+    <p class="alert alert-danger">{%trans "The result is invalid!"%}</p>
+   {%endif%}
+  {%elseif child == 'favorites'%}
+    <p class="alert alert-info fade">{%trans "First you need to set some item as favorites"%}</p>
+  {%elseif child == 'analytics'%}
+    <p class="alert alert-info fade">{%trans "The analytics of account"%}</p>
+  {%elseif child == 'tags'%}
+   {%if tagstable%}
+    <p class="alert alert-info fade">{%trans "List of tags used in your account"%}</p>
+    <div id="tags-list">
+    {%for key, row in tagstable%}
+     <a href="/$/tags?name={{row.url}}"><span>{{row.countuse}}</span>{{row.title}}</a>
+    {% endfor %}
+    </div>
+   {%else%}
+    <p class="alert alert-info fade">{%trans "First you need to set tag for some item"%}</p>
+   {%endif%}
+  {%else%}
+    <p class="alert alert-danger">{%trans "You are not allow to be here!"%}</p>
+  {%endif%}
+
+ {%else%}
+    <p class="alert alert-info fade">{%trans "This folder is empty."%}</p>
+ {%endif%}
+
+{%endif%}
+  </ul>
+{%endblock%}
+
+
+
+{%block breadcrumb%}
+{{breadcrumb() | raw}}
+{%endblock%}
+
+
+
+{%block properties%}
+  <ul id="prop-box-ul" data-action="$/prop" data-method="post"></ul>
 {%endblock%}

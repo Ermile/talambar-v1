@@ -10,6 +10,6 @@ if ( file_exists( '../../saloos/autoload.php') )
 }
 else
 {   // A config file doesn't exist
-	exit( "<p>We can't find <b>Saloos</b>! Please contact administrator!</p>" );
+	exit("<p>We can't find <b>Saloos</b>! Please contact administrator!</p>");
 }
 ?>

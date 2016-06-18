@@ -1,0 +1,265 @@
+{%extends display.mvc%}
+
+
+{%block head_css%}
+ <link rel="stylesheet"       href="{{url.static}}css/style-files.css?v=1.0.5">
+{%endblock%}
+
+{%block js%}
+ <script src='{{url.static}}js/files/uploader.js'></script>
+ <script src='{{url.static}}js/files/script-files.js'></script>
+ <script src='{{url.static}}js/files/script-files-func.js'></script>
+ <script src='{{url.static}}js/files/script-files-corridor.js'></script>
+{%endblock%}
+
+
+{%block body%}
+  <header id="header" role="header">
+   <ul id="header-nav">
+    <li id="languages" itemscope>
+     <i class="fa fa-language fa-2x" data-step='1' data-intro='{%trans "You can use in your own language"%}!'></i>
+     <nav class="vertical-menu">
+{%for key, value in site.langlist%}{%if key == global.lang%}
+      <a href="{{url.base}}?lang={{key}}" class="default not-active">{{value}}</a>
+{%else%}
+      <a href="{{url.base}}?lang={{key}}">{{value}}</a>
+{%endif%}{% endfor %}
+     </nav>
+    </li>
+{%if perm.search.view%}
+    <li id="search" data-action="/$/search" data-method="get" data-action>
+     <a class="labeled icon button" data-step='30' data-intro='{%trans "Search in your files, folders, properties and tags"%}'>
+      <i class="icon fa fa-search"></i>
+      <input type="text" name="q" autocomplete="off" placeholder='{%trans "Search"%}' />
+     </a>
+    </li>
+{%endif%}
+
+{%if perm.upload.view%}
+    <li>
+     <a class="labeled icon button" id="upload" data-modal="modal_upload" data-step='31' data-intro='{%trans "Press this key and upload your file or drop your file in browser and we detect it"%}!'>
+      <i class="icon fa fa-cloud-upload"></i><span>{%trans "Upload"%}</span>
+     </a>
+    </li>
+{%endif%}
+
+{%if perm.newFolder.add%}
+    <li>
+       <a class="labeled icon button" id="newfolder" data-step='32' data-intro='{%trans "Creating a new folder and organize your files"%}'>
+        <i class="icon fa fa-folder"></i><span>{%trans "Create new folder"%}</span>
+       </a>
+    </li>
+{%endif%}
+
+
+    <li id="more" class="hide">
+      <a class="labeled icon button" data-step='35' data-intro2='{%trans "More funtions like Select all, Cut, Rename and ... is exist in this menu"%}' data-position="bottom">
+       <i class="icon fa fa-bars"></i><span>{%trans "More ..."%}</span>
+      </a>
+      <nav class="vertical-menu">
+       <a id="more-selectall" href="#"><i class="fa fa-check-square-o"></i> {%trans "Select All"%}</a>
+{%if perm.fileManager.edit%}
+       <a id="more-copy" href="#" class="hide"><i class="fa fa-files-o"></i> {%trans "Copy"%}</a>
+       <a id="more-move" href="#"><i class="fa fa-scissors"></i> {%trans "Cut"%}</a>
+       <a id="more-rename" href="#"><i class="fa fa-pencil-square-o"></i> {%trans "Rename"%}</a>
+{%endif%}
+{%if perm.fileManager.delete%}
+       <a id="more-remove" data-action="/$/remove" data-method="post" delay='2000'><i class="icon fa fa-times"></i> {%trans "Delete"%}</a>
+{%endif%}
+       <a class="hide" id="more-show" href="#"><i class="fa fa-trash-o"></i>{%trans "Don't show deleted items"%}</a>
+      </nav>
+    </li>
+{%if perm.fileManager.view%}
+    <li id="download" class="hide">
+     <a class="labeled icon button" id="download-link" href="#" download data-action>
+      <i class="icon fa fa-download"></i><span>{%trans "Download"%}</span>
+     </a>
+    </li>
+{%endif%}
+{%if perm.apps.view%}
+    <li id="send-to-app" class="hide">
+      <a class="labeled icon button" data-step='36' data-intro2='{%trans "If you have a permission, you can send your files to an app and after process, if you want we can save result in file metadata"%}' data-position="bottom">
+       <i class="icon fa fa-paper-plane-o"></i><span>{%trans "Send to app"%}</span>
+      </a>
+      <nav class="vertical-menu">
+        <a href="{{url.static}}page/app.php" data-data='custom data'>
+         <i class="fa fa-paper-plane-o"></i>{%trans "Send to app"%} 1 - <span>{%trans "Image Processing"%}</span>
+        </a>
+
+        <a href="{{url.static}}page/app.php" data-data='custom data 2'>
+         <i class="fa fa-paper-plane-o"></i>{%trans "Send to app"%} 2 - <span>{%trans "Text Mining"%}</span>
+        </a>
+
+        <a href="http://google.com/search" data-q='Iran'>
+         <i class="fa fa-paper-plane-o"></i>{%trans "Send to app"%} 3 - <span>{%trans "Google"%}</span>
+        </a>
+        <form action="#" data-action target="_blank">
+          <input type="hidden" name="app" value=''>
+          <input type="hidden" name="authcode" value=''>
+          <input type="hidden" name="addr" value=''>
+          <input type="hidden" name="ext" value=''>
+          <div data-action="/$/auth" data-method="post">
+          </div>
+          <input type="submit" value=''>
+        </form>
+      </nav>
+    </li>
+{%endif%}
+{%if perm.fileManager.edit%}
+    <li id="paste" class="hide" data-action="/$/paste" data-method="post" delay='1000'>
+     <a class="labeled icon button">
+      <i class="icon fa fa-clipboard"></i>{%trans "Paste"%}
+     </a>
+    </li>
+{%endif%}
+   </ul>
+
+   <div id="profile" data-step='37' data-intro='{%trans "Go to your profile, change password or logout from system"%}' data-position="{{dir.left}}">
+    <span>{%set dname = login.displayname%}{%trans dname%}</span>
+    <i class="fa fa-user"></i>
+
+    <nav class="vertical-menu">
+     <a id="profile-me" href="/$/profile" class="hide"><i class="fa fa-user"></i> {%trans "My Profile"%}</a>
+     <a id="profile-changepass" href="{{url.protocol}}://account.{{url.raw}}/changepass?cp=1&from=cp" target="_blank"><i class="fa fa-exchange"></i> {%trans "Change Password"%}</a>
+     <a id="profile-logout" href="http://{{url.raw}}/logout"><i class="fa fa-sign-out"></i> {%trans "Logout"%}</a>
+    </nav>
+   </div>
+  </header>
+
+<div class="row body auto">
+ <aside class="span1 unselectable" id='page-sidebar'>
+
+  <nav class='sidebar-items' data-step='12' data-intro='{%trans "Use this menu for navigating to some part of system"%}'>
+
+  <a class='hint--right' id='ihome' data-hint='{%trans "Home"%}' href="/" data-step='13' data-intro='{%trans "Navigate to home directory of your account"%}'><i class="fa fa-lg fa-home"></i></a>
+
+{%if perm.favorites.view%}
+  <a class='hint--right' id='ifavorites' data-hint='{%trans "favorites"%}' href="/$/favorites" data-step='14' data-intro='{%trans "Show your favorites item"%}'><i class="fa fa-lg fa-star-o"></i></a>
+{%endif%}
+
+{%if perm.tags.view%}
+  <a class='hint--right' id='itags' data-hint='{%trans "Tags"%}' href="/$/tags" data-step='15' data-intro='{%trans "Show your tags"%}'><i class="fa fa-lg fa-tags"></i></a>
+{%endif%}
+
+{%set introOption%}
+.setOptions({ 'nextLabel': '{%trans "Next →"%}', 'prevLabel': '{%trans "← Back"%}', 'skipLabel': '{%trans "Skip"%}', 'doneLabel': '{%trans "Done"%}', 'showStepNumbers': 'false', 'showProgress': 'true', 'tooltipPosition': '{{dir.right}}' })
+{%endset%}
+  <a class='hint--right' id='ifaq' data-hint='{%trans "Present system and all part of it to you"%}' data-options="{{introOption}}" href="#"><i class="fa fa-lg fa-question"></i></a>
+
+  <a class='hint--right hide' id='ianalytics' data-hint='{%trans "Analytics"%}' href="/$/analytics" data-step='16' data-intro2='{%trans "Show your account analytics"%}'><i class="fa fa-lg fa-line-chart"></i></a>
+
+  <a class='hint--right hide' id='ioptions' data-hint='{%trans "Options"%}' href="#"><i class="fa fa-lg fa-cog"></i></a>
+{%if permContent.cp%}
+  <a class='hint--right' id='icp' target="_blank" data-hint='{%trans "Access to Control Panel"%}' href="{{url.protocol}}://cp.{{url.raw}}"><i class="fa fa-lg fa-desktop"></i></a>
+{%endif%}
+  </nav>
+ </aside>
+
+ <div class="span8" id='explorer'>
+
+  <div class="breadcrumb" tabindex='-1' data-step='4' data-intro='{%trans "View your current location and navigate to parent of it"%}' data-position='bottom'>
+   <nav data-xhr='breadcrumb'>
+{%block breadcrumb%}{%endblock%}
+   </nav>
+  </div>
+
+  <ul data-xhr='explorer' data-step='2' data-intro='{%trans "your items like folder and files is show in this place"%}.{%trans "You can navigate between items with keyboard Up, Down, PageUp, PageDown, Home and End key."%}. {%trans "Also you can use Shift, Ctrl and Alt and we try to give you all functions that you need"%}. {%trans "After selecting item we show you properties of this item in sidebar"%}. {%trans "On double click you entering to folders"%}.' data-position='{{dir.right}}'>
+{%block explorer%}{%endblock%}
+  </ul>
+ </div>
+
+ <div class="span3 left-side" id='prop-box' data-id="" data-step='3' data-intro='{%trans "The properties of selected item appear in this place"%}. {%trans "You can add a new metadata or property to selected items"%}. {%trans "Also you can remove your properties"%}. {%trans "You allow to add tag to items manually and we collect tags and show you in tags page"%}.' data-position="{{dir.left}}">
+
+
+{%if perm.property.view%}
+  <div>
+{%if perm.property.add%}
+   <ul id="prop-box-new" data-action="/$/propadd" data-method="post" delay='1000'>
+    <li class="row auto">
+     <input type="text" name="name" class='span5' autocomplete="off" placeholder='{%trans "Name"%}'/>
+     <input type="text" name="value" class='span6' autocomplete="off" placeholder='{%trans "Value"%}'/>
+
+     <button class='button positive span1' id="prop-submit" title='{%trans "Add it"%}'>
+       <i class="fa fa-plus"></i>
+     </button>
+    </li>
+   </ul>
+{%endif%}
+
+   <h3>
+    <span>{%trans "Properties"%}<span>
+{%if perm.property.add%}
+     <i class="fa fa-plus"></i>
+{%endif%}
+   </h3>
+  </div>
+{%block properties%}{%endblock%}
+
+{%if perm.tags.add%}
+  <ul id="prop-box-tags">
+    <li class="row auto" id="tagInput" data-action="$/tagadd" data-method="post" data-delay='500'>
+        <input type="text" id="tag-add" class='span8' autocomplete="off" placeholder='{%trans "Enter Tags"%}'/>
+        <input type="button" id="tag-add-btn" class='span4 button' value={%trans "Add"%} tabindex="-1" />
+        <textarea name="tags" id="sp-tags" class="sp-tags input" placeholder='{%trans "Enter Tags here"%}'>{{tagList}}</textarea>
+    </li>
+    <li class="row auto">
+      <span class="span4">{%trans "Tags"%}<i class="fa fa-plus" tab-index="-1"></i></span>
+      <span class="span8" id="tag-list" data-action="$/tagremove" data-method="post" data-delay='500'>123 </span>
+    </li>
+  </ul>
+{%endif%}
+{%endif%}
+  <ul id='upload-notify'></ul>
+
+ </div>
+
+</div>
+
+{%if perm.upload.view%}
+ <div class='modal' id="modal_upload">
+  <div class='modal-dialog'>
+   <div class='modal-body'>
+    <form method="post" id="form_uploader" action="/$/upload" enctype="multipart/form-data" class="unselectable">
+     <div id="drop">{%trans "Drag & Drop Files Here"%}<br />{%trans "or"%}<a>{%trans "Choose File"%}</a>
+      <input type="file" name="upfile" multiple />
+      <input type="hidden" name="location" value="{{url.path}}" />
+      <small>{%trans "Maximum size allowed"%} {{maxSize}}</small>
+     </div>
+     <a class="button negative" data-cancel>{% trans"Cancel" %}</a>
+    </form>
+   </div>
+   <div class='modal-footer buttons'>
+   </div>
+  </div>
+ </div>
+{%endif%}
+
+
+{%if appResult%}
+ <div class='modal visible' id="modal_result" data-always>
+  <div class='modal-dialog'>
+   <div class='modal-header'><h2>{%trans "App result"%}</h2>
+    <div class="row auto">
+     <div class="span4">{%trans "Key"%}</div>
+     <div class="span8">{%trans "Value"%}</div>
+    </div>
+   </div>
+   <div class='modal-body'>
+{%for key, value in appResult%}
+    <div class="row auto">
+     <div class="span4">{{key}}</div>
+     <div class="span8">{{value}}</div>
+    </div>
+{% endfor %}
+   </div>
+   <p>{%trans "Do you want to save result of this app as property of file?"%}</p>
+   <div class='modal-footer buttons'>
+    <a class='button negative' data-cancel>{%trans "Cancel"%}</a>
+    <div class='or' data-text='{%trans "or"%}'></div>
+    <a class='button positive' data-ajaxify data-action="$/result" data-method="post" data-ok>{%trans "Submit"%}</a>
+   </div>
+  </div>
+ </div>
+{%endif%}
+
+{%endblock%}

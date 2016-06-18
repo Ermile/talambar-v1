@@ -2,240 +2,323 @@
 namespace content_files\home;
 use \lib\debug;
 use \lib\utility;
+
 class model extends \mvc\model
 {
-	public function tree()
+	use models\apps;
+	use models\auth;
+	use models\download;
+	use models\favorites;
+	use models\fileManager;
+	use models\properties;
+	use models\search;
+	use models\tags;
+	use models\upload;
+
+	/**
+	 * get the location of file and check it with referer then
+	 * if correct pass the complete location contain uid
+	 * @return [type] [description]
+	 */
+	protected function getLocation($_location = false)
 	{
-		$myid = $this->login('id');
-
-		// create query for get by folders name and ordered by depth
-		$qry   = $this->sql()->tableAttachments()->whereUser_id($myid)
-		->orderAttachment_depth('ASC')->orderAttachment_order('ASC')->select();
-
-		$mydatatable = array();
-		foreach ($qry->allassoc() as $row)
+		// var_dump($_location);
+		if($_location === false)
 		{
-			$mydatatable[] = array(
-				'name'   => $row['attachment_title'],
-				'id'     => $row['id'],
-				'type'   => $row['attachment_type'],
-				'ext'    => $row['attachment_ext'],
-				'size'   => $row['attachment_size'],
-				'count'  => $row['attachment_count'],
-				'order'  => $row['attachment_order'],
-				'parent' => $row['attachment_parent'],
-				'status' => $row['attachment_status'],
-				);
-		}
-		return $mydatatable;
-	}
+			$_location = utility::post('location');
+			if(!empty($_location) && strpos($_SERVER['HTTP_REFERER'], $_location) === false)
+			{
+				debug::property('status', 'fail');
+				debug::property('error', T_('Fail on get current location'). $_location);
 
-	public function post_folder(){
-	}
-
-	/**
-	 * set tree in attachments table
-	 * @param [int] 			$parent_id parent id
-	 * @param [string] 			$name      tree name
-	 * @param [boolean or int] 	$isFile    if is file is int and if is folder is null
-	 */
-	private function set_tree($parent_id, $name, $isFile = null){
-		$uid = $this->login('id');
-		$sql = $this->sql("set_tree")->tableAttachments();
-		if($isFile !== null){
-			$sql->setAttachment_type('file');
-			$sql->setFile_id($isFile);
-		}else{
-			$sql->setAttachment_type('folder');
-		}
-		$sql = $sql->setAttachment_parent($parent_id)
-		->setAttachment_title($name)
-		->setUser_id($uid)->insert();
-		if($sql->LAST_INSERT_ID() !== false){
-			return true;
-		}else{
-			return false;
-		}
-	}
-
-	/**
-	 * get parent or folder id
-	 * @param  [string] $addr 	path directory
-	 * @param  [string] $name 	file or folder name
-	 * @param  [boolean] $isFile 	is file or folder
-	 * @return [int]       		parent_id
-	 */
-	private function getFolder_id($addr, $name, $isFile = null){
-		$uid = $this->login('id');
-		if($addr == "/") $parent_id = "#NULL";
-		else{
-			$sAddr = explode("/", $addr);
-			$pTitle = end($sAddr);
-			array_pop($sAddr);
-			$addr = join("/", $sAddr);
-			if($addr == "") $addr = "/";
-			$sql = $this->sql("getParent_id")->tableAttachments()
-			->fieldId()
-			->whereUser_id($uid)
-			->andAttachment_addr($addr)
-			->andAttachment_type("folder")
-			->andAttachment_title($pTitle)
-			->limit(1);
-			$parent_id = $sql->select()->assoc('id');
-		}
-		if(is_numeric($parent_id) || $parent_id == "#NULL"){
-			$exists = $this->sql("checkexists")->tableAttachments()
-			->fieldId()
-			->whereUser_id($uid);
-
-			if($isFile){
-				$exists->andAttachment_type('file');
-			}else{
-				$exists->andAttachment_type('folder');
-			}
-
-			$exists = $exists->andAttachment_title($name)
-			->andAttachment_parent($parent_id)
-			->limit(1)->select()->num();
-			if($exists){
+				$this->_processor(['force_json'=>true, 'not_redirect'=>true]);
 				return false;
-			}else{
-				return $parent_id;
 			}
-		}else{
+			elseif($_location === null)
+			{
+				$_location = $this->url('path');
+			}
+		}
+
+		$uid = $this->login('id');
+		$_location = '/'. $uid.'/'. $_location;
+		$_location = urldecode($_location);
+
+		return $_location;
+	}
+
+
+	/**
+	 * get items send via js then decode and return it
+	 * @return [type] return selected elements in explorer
+	 */
+	protected function getItems($_raw = false)
+	{
+		$items = utility::post('items');
+		if(!$items)
+		{
+			$items = utility::get('id');
+		}
+
+		$items = explode(',', $items);
+		if(count($items) < 1)
+		{
 			return false;
 		}
+
+		$myIDs = array();
+		foreach($items as $item)
+		{
+			$myIDs[] = utility\shortURL::decode($item);
+		}
+
+		if($_raw)
+		{
+			return implode($myIDs, ', ');
+		}
+		// if contain one element pass it in string
+		elseif(is_array($_raw) && count($_raw) == 1  &&  isset($myIDs[0]))
+		{
+			return $myIDs[0];
+		}
+
+		return $myIDs;
 	}
 
-	public function post_upload(){
-		$tmp = root.'../tmp-upd/';
-		$uid = $this->login('id');
-		$session = utility::post("session");
-		$file = $_FILES['file'];
-		if($session == '0'){
 
+	/**
+	 * create a start of query for current item to use in another functions
+	 * @param  [type]  $_need   pass your need in array and we process it
+	 * @param  boolean $_id  	pass the id of item manually
+	 * @param  boolean $_order  pass the field and type of order
+	 * @param  boolean $_status pass status that want it
+	 * @return [type]           return the sql object for nex step
+	 */
+	protected function qryCreator($_need, $_id = false, $_order = false, $_status = false)
+	{
+		// add current user to query string
+		$uid       = $this->login('id');
+		if(!$uid)
+			return false;
+
+
+
+		// --------------------------------------------------------- user_id
+		$myQry = $this->sql()
+						->table('attachments')
+						->where('user_id', $uid);
+
+		// --------------------------------------------------------- attachment_addr
+		// add location to query string
+		if(in_array('location', $_need))
+		{
+			// get location
+			$myLocation = $this->getLocation();
+			if(!$myLocation)
+				return false;
+			$myQry = $myQry->and('attachment_addr', $myLocation);
+		}
+
+		// --------------------------------------------------------- attachment_fav
+		// add favorites to query string
+		if(in_array('fav', $_need))
+		{
+			$myQry = $myQry->and('attachment_fav', 1);
+		}
+
+		// --------------------------------------------------------- attachment_status
+		// add status to query string
+		if(in_array('status', $_need))
+		{
+			if(is_array($_status))
+			{
+				$_status = implode($_status, ',');
+				$myQry = $myQry->and('attachment_status', 'IN', '('& $_status & ')');
+			}
+			else
+			{
+				$myQry = $myQry->and('attachment_status', 'IN', "('normal', 'trash')");
+			}
+		}
+
+
+
+		// --------------------------------------------------------- id
+		// select with best selector for id
+		// different for array and strings
+		if(in_array('id', $_need))
+		{
+			if($_id)
+			{
+				$myQry = $myQry->and('id', $_id);
+			}
+			else
+			{
+				$myId = $this->getItems(true);
+				// if only has one id
+				if(is_numeric($myId))
+				{
+					$myQry = $myQry->and('id', $myId);
+				}
+				// if contain more than one id
+				elseif($myId)
+				{
+					$myQry = $myQry->and('id', 'IN' ,"(".$myId.")");
+				}
+				// the id is not correct
+				else
+					return false;
+			}
+		}
+
+
+		// --------------------------------------------------------- Search
+		// create search query
+		if(in_array('search', $_need))
+		{
 			/**
-			 * files table
+			Shwo unique result
 			 */
-			$size = utility::post("size");
-			$open_file_row = $this->sql('upload')->tableFiles()
-			->setFile_size($size)
-			->setFile_status('inprogress')
-			->insert();
-			$file_id = $open_file_row->LAST_INSERT_ID();
-			if($file_id === false){
-				debug::error('file row error', 'open', 'file');
-				return;
-			}
+			$q = utility::get('q');
+			// $myQry = $myQry->and('MATCH(`attachment_name`, `attachment_meta`)', 'AGAINST' ,"('".$q."')");
+			$myQry = $myQry->groupOpen('g_search');
 
-			/**
-			 * attachments table
-			 */
-			$parent = utility::post("parent");
-			if(!$parent){
-				$site = urldecode($_SERVER['HTTP_REFERER']);
-				preg_match("/^https?:\/\/[^\/]*(\/.*)$/", $site, $path);
-				$parent = $path[1];
-			}
-			$parent_id = $this->getFolder_id($parent, $file['name'], true);
-			if(!$parent_id){
-				debug::error('path directory error', 'path', 'file');
-				return;
-			}
-			$set = $this->set_tree($parent_id, $file['name'], $file_id);
-			if(!$set){
-				debug::error('attachment save error', 'attachments', 'file');
-				return;
-			}
+			$myQry = $myQry->and("attachment_name", 'LIKE', "'%$q%'");
+			$myQry = $myQry->or( "attachment_meta", 'LIKE', "'%$q%'");
 
-			/**
-			 * fileparts talbe
-			 */
-			$session = md5(time().rand(111111111, 999999999));
-			$open_file_parts = $this->sql('upload')->tableFileparts()
-			->setFile_id($file_id)
-			->setFilepart_part("#0")
-			->setFilepart_code($session)
-			->setFilepart_status('inprogress')
-			->insert()->LAST_INSERT_ID();
-			if(!is_dir($tmp)) mkdir($tmp);
-			mkdir($tmp.$file_id);
-			if(!debug::$status || !move_uploaded_file($_FILES['file']['tmp_name'], $tmp.$file_id.'/0')){
-				debug::error('upload file error', 'move', 'file');
-				return;
+			// $myQry = $myQry->groupClose('g_search');
+
+
+			$myQry->join('attachmentmetas')->on('attachment_id', '#attachments.id')
+				// ->groupOpen('g_searchmeta')
+				->field(false)
+				->and("attachmentmeta_key", 'LIKE', "'%$q%'")
+				->or("attachmentmeta_value", 'LIKE', "'%$q%'")
+				// ->groupClose('g_searchmeta');
+				->groupClose('g_search');
+
+
+				// ->and('termusage_foreign', '#"attachments"');
+
+		}
+
+
+		// --------------------------------------------------------- order by type
+		// add order to query string if user needif
+		if(in_array('order', $_need))
+		{
+			if(is_array($_order))
+			{
+				$myQry = $myQry->order('#'. key($_order[0]), $_order[0]);
 			}
-			debug::property("session", $session);
-			debug::property("file", $file_id);
-		}else{
-			$file_id = $file['name'];
-			$file_parts_check = $this->sql('upload')->tableFileparts()
-			->whereFile_id($file_id)->limit(1)->select();
-			$file_parts = $file_parts_check->assoc();
-			if(!$file_parts['filepart_code'] == $session && $file_parts['filepart_code'] != ''){
-				debug::error('file in progress in another client', 'session', 'file');
-				return;
-			}elseif($file_parts['filepart_status'] == 'appended'){
-				debug::error('file in appending', 'appending', 'file');
-				return;
-			}
-			$this->sql('upload')->tableFileparts()
-			->setFilepart_part("#filepart_part+1")
-			->whereFile_id($file_id)
-			->update();
-			$new_part = $file_parts['filepart_part'] +1;
-			if(!debug::$status || !move_uploaded_file($_FILES['file']['tmp_name'], $tmp.$file_id.'/'.$new_part)){
-				debug::error('upload file error', 'move', 'file');
-				return;
+			else
+			{
+				$myQry = $myQry->order('#type', 'DESC');
 			}
 		}
+
+		if(in_array('field', $_need))
+		{
+			$myQry = $this->qryCreatorField($myQry);
+			// $myQry = $myQry->field(
+			// 			'id',
+			// 			'file_id',
+			// 			'#attachment_title as title',
+			// 			'#attachment_desc as description',
+			// 			'#attachment_type as type',
+			// 			// '#attachment_addr as address',
+			// 			'#attachment_name as name',
+			// 			'#attachment_ext as ext',
+			// 			'#attachment_size as size',
+			// 			'#attachment_meta as meta',
+			// 			'#attachment_parent as parent',
+			// 			// '#attachment_order as order',
+			// 			'#attachment_fav as fav',
+			// 			'#attachment_status as status',
+			// 			'#attachment_date as date'
+			// 		);
+		}
+
+		return $myQry;
 	}
 
-	public function get_killSession(){
-		$session = utility::get("session");
-		$finished = utility::get("finished");
-		$file_parts = $this->sql('upload')->tableFileparts()
-		->setFilepart_code($session);
-		if($finished === 'true'){
-			$file_parts->setFilepart_status('appended');
-		}
-		$file_parts = $file_parts->whereFilepart_code($session)->update();
-		if($finished === 'true' && debug::$status){
-			$parts_check = $this->sql('upload')->tableFileparts()
-			->whereFilepart_code($session)
-			->limit(1)
-			->select();
-			$this->appending($parts_check->assoc('file_id'));
-		}
 
-		$opt = (object) array('force_json' => true, 'force_stop' => true);
-		$this->_processor($opt);
+	/**
+	 * Add field to query string
+	 * @param  query string without field
+	 * @return query string with added field
+	 */
+	protected function qryCreatorField($_qry)
+	{
+		return $_qry->field(
+						'id',
+						'file_id',
+						'#attachment_title as title',
+						'#attachment_desc as description',
+						'#attachment_type as type',
+						// '#attachment_addr as address',
+						'#attachment_name as name',
+						'#attachment_ext as ext',
+						'#attachment_size as size',
+						'#attachment_meta as meta',
+						'#attachment_parent as parent',
+						// '#attachment_order as order',
+						'#attachment_fav as fav',
+						'#attachment_status as status',
+						'#attachment_date as date'
+					);
 	}
 
-	private function appending($file_id){
-		$tmp = root.'../tmp-upd/'.$file_id.'/';
-		$part = 0;
-		while ($file = @file_get_contents($tmp.$part)) {
-			file_put_contents($tmp.'final', $file, FILE_APPEND);
-			$part++;
+
+	/**
+	 * fix datatable for showing it
+	 * @param  [type] $_dbtable [give datatable]
+	 * @return [type]           [return fixed datatable]
+	 */
+	public function draw_fix($_dbtable)
+	{
+		foreach ($_dbtable as $key =>$row)
+		{
+			if(isset($row['meta']) && $row['meta'])
+			{
+				$_dbtable[$key]['meta']   = json_decode($row['meta'], true);
+			}
+			$_dbtable[$key]['cid']    = utility\shortURL::encode($row['id']);
+			$_dbtable[$key]['fav']    = $_dbtable[$key]['fav']? 'fa-star': 'fa-star-o';
+			$_dbtable[$key]['status'] = $_dbtable[$key]['status'] == 'normal'? '': $_dbtable[$key]['status'];
+
+			// set icon for items
+			switch ($row['type'])
+			{
+				case 'folder':
+					$_dbtable[$key]['icon'] = 'folder';
+					break;
+
+				case 'file':
+					$_dbtable[$key]['icon'] = 'file-o';
+
+					if(isset($_dbtable[$key]['meta']) &&
+						isset($_dbtable[$key]['meta']['type']) &&
+						$_dbtable[$key]['meta']['type'] !== 'file'
+					)
+						$_dbtable[$key]['icon'] = 'file-'.$_dbtable[$key]['meta']['type'].'-o';
+					break;
+
+				case 'system':
+					$_dbtable[$key]['icon'] = 'hdd-o';
+					break;
+
+				case 'other':
+					$_dbtable[$key]['icon'] = 'file';
+					break;
+
+				default:
+					$_dbtable[$key]['icon'] = 'file-o';
+					break;
+			}
 		}
+		return $_dbtable;
 	}
+
 }
-/*
-Array
-(
-    [session] => 0
-)
-Array
-(
-    [file] => Array
-        (
-            [name] => friday.mp3
-            [type] => application/octet-stream
-            [tmp_name] => /tmp/phpl7IiQF
-            [error] => 0
-            [size] => 200000
-        )
-
-)
- */
 ?>
