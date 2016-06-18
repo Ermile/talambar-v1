@@ -3,8 +3,17 @@ private function transtext()
 {
 
 	//-------------------------------------------------------content\home\display.html
-	echo T_("Comming Soon");                                                          // Line 11
-	echo T_("Powered by Saloos");                                                     // Line 11
+	echo T_("Talambar");                                                              // Line 8
+	echo T_("Another cloud storage!");                                                // Line 9 Seperate
+	echo T_("Indeed we respect for privacy and try to providing maximum security for your files.");// Line 9 Seperate
+	echo T_("Learn more");                                                            // Line 12
+	echo T_("or");                                                                    // Line 258
+	echo T_("Signup");                                                                // Line 14
+	echo T_("Files");                                                                 // Line 20
+	echo T_("Logout");                                                                // Line 124
+	echo T_("Login");                                                                 // Line 23
+	echo T_("Security. Privacy. Simply.");                                            // Line 28
+	echo T_("Experience our service in your language");                               // Line 32
 
 	//-------------------------------------------------content_files\home\display.html
 	echo T_("Hello!");                                                                // Line 32
@@ -45,7 +54,6 @@ private function transtext()
 	echo T_("Go to your profile, change password or logout from system");             // Line 117
 	echo T_("My Profile");                                                            // Line 122
 	echo T_("Change Password");                                                       // Line 123
-	echo T_("Logout");                                                                // Line 124
 	echo T_("Use this menu for navigating to some part of system");                   // Line 132
 	echo T_("Home");                                                                  // Line 134
 	echo T_("Navigate to home directory of your account");                            // Line 134
@@ -80,7 +88,6 @@ private function transtext()
 	echo T_("Add");                                                                   // Line 202
 	echo T_("Enter Tags here");                                                       // Line 203
 	echo T_("Drag & Drop Files Here");                                                // Line 223
-	echo T_("or");                                                                    // Line 258
 	echo T_("Choose File");                                                           // Line 223
 	echo T_("Maximum size allowed");                                                  // Line 226
 	echo T_("App result");                                                            // Line 241
@@ -95,8 +102,6 @@ private function transtext()
 	echo T_("apps");                                                                  // Line 9 Seperate
 	echo T_("newFolder");                                                             // Line 10 Seperate
 	echo T_("property");                                                              // Line 11 Seperate
-
-	//----------------------public_html\static\js\datatable\datatable-langs\index.html
 
 }
 ?>

@@ -78,6 +78,7 @@ private function transtext()
 	echo T_("Powered by");                                                            // Line 104
 	echo T_("Saloos");                                                                // Line 7 Seperate
 	echo T_("Last update on");                                                        // Line 106
+	echo T_("wait for next version!");                                                // Line 106
 	echo T_("Version");                                                               // Line 103 Seperate
 
 	//-----------------------------------saloos-addons\content_cp\options\display.html
@@ -307,7 +308,7 @@ private function transtext()
 	echo T_("SiteContent");                                                           // Line 80 Seperate
 	echo T_("Terms");                                                                 // Line 93 Seperate
 	echo T_("Comments");                                                              // Line 95 Seperate
-	echo T_("Profile");                                                               // Line 98 Seperate
+	echo T_("Profile");                                                               // Line 370 Seperate
 	echo T_("Powered by Saloos.");                                                    // Line 101 Seperate
 	echo T_("All right reserved.");                                                   // Line 102 Seperate
 	echo T_("Comming Soon");                                                          // Line 104 Seperate
@@ -502,7 +503,28 @@ private function transtext()
 	echo T_("Your password is changed successfully");                                 // Line 351 Seperate
 	echo T_("Now we only support IRAN!");                                             // Line 352 Seperate
 	echo T_("Thanks for using our service");                                          // Line 354 Seperate
-	echo T_(" ");                                                                     // Line 357 Seperate
+	echo T_("Dear user");                                                             // Line 359 Seperate
+	echo T_("For using this service we need to register your phone number.");         // Line 360 Seperate
+	echo T_("Please send your number with below keyboard to complete registeration.");// Line 361 Seperate
+	echo T_("Dear friend");                                                           // Line 362 Seperate
+	echo T_("We need your phone number to verifying your account.");                  // Line 363 Seperate
+	echo T_("If you dont want share your number, we cant presenting our services to you!");// Line 364 Seperate
+	echo T_("Registering user is successful.");                                       // Line 365 Seperate
+	echo T_("Cancel registration and return to main menu");                           // Line 366 Seperate
+	echo T_("Please only use below keyboard");                                        // Line 367 Seperate
+	echo T_("We need your contact!");                                                 // Line 368 Seperate
+	echo T_("Register User 📱");                                                    // Line 371 Seperate
+	echo T_("Register User");                                                         // Line 372 Seperate
+	echo T_("Return");                                                                // Line 373 Seperate
+	echo T_("Register Mobile Number 📱");                                           // Line 374 Seperate
+	echo T_("Register Mobile Number");                                                // Line 375 Seperate
+	echo T_("Register Address");                                                      // Line 376 Seperate
+	echo T_("By completing your profile, help us to present better service.");        // Line 377 Seperate
+	echo T_("We will thank you for this.");                                           // Line 378 Seperate
+	echo T_("Your phone number registered successfully;)");                           // Line 380 Seperate
+	echo T_("We dont need another users contact:?)");                                 // Line 381 Seperate
+	echo T_("We need mobile number!");                                                // Line 382 Seperate
+	echo T_(" ");                                                                     // Line 386 Seperate
 
 	//-----------------------------------------saloos-addons\includes\macro\forms.html
 	echo T_("Select");                                                                // Line 80
