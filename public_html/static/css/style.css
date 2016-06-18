@@ -8,8 +8,8 @@ header{font-size: 2.5em;position: relative;}
 
 .signup{background-color:#21ba45;color:#fff}
 .signup:hover, .signup:focus{background-color:#16ab39;color: #fff}
-.login{background-color: #00b5ad;font-size: 4em;color:#fff;line-height: 2em;}
-.login:hover, .login:focus{background-color: #009c95;color:#fff;}
+.primary{background-color: #00b5ad;font-size: 4em;color:#fff;line-height: 2em;}
+.primary:hover, .primary:focus{background-color: #009c95;color:#fff;}
 
 #logo {width:100px;position: absolute;top: 0;left: -100px;transition:0.5s ease;}
 html:hover #logo{left: -50px;top:10px;}
@@ -21,3 +21,52 @@ html:hover #logo{left: -50px;top:10px;}
 
 
 
+.page-content header h1{
+	font-size: 4em;
+	font-weight: 700;
+	text-align: center;
+	border-bottom: 1px solid #eee;
+}
+.page-content section{
+	margin-bottom: 100px;
+	overflow: hidden;
+}
+.page-content section ul{list-style:square inside none;padding: 0 1em;}
+.page-content section ul li{padding:0.3em 0;font-size:1.3em;}
+.page-content section ul ul{list-style-type: circle}
+.page-content section ul ul ul{list-style-type: disc}
+.page-content h2{
+	font-weight: 700;
+	background-color: #eee;
+	padding: 5px 1em;
+	border-color: #39a;
+	border-style: solid;
+    border-width: 0;
+	border-left-width: 10px;
+}
+.rtl .page-content h2{
+    border-width: 0;
+	border-right-width: 10px;
+}
+.page-content .content{
+	padding: 0 2%;
+}
+.page-content footer{
+	margin-top: 5em;
+	padding: 2em 0;
+	border-top: 1px solid #eee;
+	text-align: center;
+}
+
+nav.breadcrumb {width: 100%;background: #f9f9f9;padding: 6px 15px;display:inline-block;}
+nav.breadcrumb a{font-size: 1em;line-height:12px;color: #99a0aa;float:left;font-weight:700}
+.rtl nav.breadcrumb a{float:right;}
+nav.breadcrumb a:hover {color: #656d78;}
+nav.breadcrumb a:last-child {color: #656d78;}
+nav.breadcrumb > a + a:before {content: "<";color: #99a0aa;padding: 0px 8px;float:left;}
+.rtl nav.breadcrumb > a + a:before {content: ">";float:right;}
+nav#page-nav{display: block;position: relative;width:100%;float:left;padding:10px 5%;transition:0.3s;font-size: 1.3em}
+nav#page-nav:hover{background-color:rgba(238, 238, 238, 0.4);}
+nav#page-nav a:hover{color:#000;}
+.rtl nav#page-nav #nav-next{float:left;display: block }
+.rtl nav#page-nav #nav-prev{float:right;display: block }

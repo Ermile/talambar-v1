@@ -9,7 +9,7 @@
      <h2>{{site.desc}}</h2>
     </header>
 {%if global.login%}
-   <a href="http://{{url.raw}}/files" data-direct class='button'>{%trans "Files"%}</a>
+   <a href="http://{{url.raw}}/files" data-direct class='button primary'>{%trans "Files"%}</a>
    <a href="{{url.MainService}}/logout" data-direct class='btnlogin button negative'>{%trans "Logout"%}</a>
 {%else%}
     <div class='buttons'>
@@ -19,7 +19,7 @@
        <a data-action href='{{url.LoginService}}/signup' class='button signup'>{%trans "Signup"%}</a>
      </div>
     </div>
-    <a data-direct href="{{url.LoginService}}/login" class='button login'>{%trans "Login"%}</a>
+    <a data-direct href="{{url.LoginService}}/login" class='button primary'>{%trans "Login"%}</a>
 {%endif%}
    </section>
   <div class="span7" id='slogan'>
