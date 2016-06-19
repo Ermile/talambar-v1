@@ -27,7 +27,7 @@
      </nav>
     </li>
 {%if perm.search.view%}
-    <li id="search" data-action="/$/search" data-method="get" data-action>
+    <li id="search" data-action="{{url.base}}$/search" data-method="get" data-action>
      <a class="labeled icon button" data-step='30' data-intro='{%trans "Search in your files, folders, properties and tags"%}'>
       <i class="icon fa fa-search"></i>
       <input type="text" name="q" autocomplete="off" placeholder='{%trans "Search"%}' />
@@ -64,7 +64,7 @@
        <a id="more-rename" href="#"><i class="fa fa-pencil-square-o"></i> {%trans "Rename"%}</a>
 {%endif%}
 {%if perm.fileManager.delete%}
-       <a id="more-remove" data-action="/$/remove" data-method="post" delay='2000'><i class="icon fa fa-times"></i> {%trans "Delete"%}</a>
+       <a id="more-remove" data-action="{{url.base}}$/remove" data-method="post" delay='2000'><i class="icon fa fa-times"></i> {%trans "Delete"%}</a>
 {%endif%}
        <a class="hide" id="more-show" href="#"><i class="fa fa-trash-o"></i>{%trans "Don't show deleted items"%}</a>
       </nav>
@@ -98,7 +98,7 @@
           <input type="hidden" name="authcode" value=''>
           <input type="hidden" name="addr" value=''>
           <input type="hidden" name="ext" value=''>
-          <div data-action="/$/auth" data-method="post">
+          <div data-action="{{url.base}}$/auth" data-method="post">
           </div>
           <input type="submit" value=''>
         </form>
@@ -106,7 +106,7 @@
     </li>
 {%endif%}
 {%if perm.fileManager.edit%}
-    <li id="paste" class="hide" data-action="/$/paste" data-method="post" delay='1000'>
+    <li id="paste" class="hide" data-action="{{url.base}}$/paste" data-method="post" delay='1000'>
      <a class="labeled icon button">
       <i class="icon fa fa-clipboard"></i>{%trans "Paste"%}
      </a>
@@ -119,7 +119,7 @@
     <i class="fa fa-user"></i>
 
     <nav class="vertical-menu">
-     <a id="profile-me" href="/$/profile" class="hide"><i class="fa fa-user"></i> {%trans "My Profile"%}</a>
+     <a id="profile-me" href="{{url.base}}$/profile" class="hide"><i class="fa fa-user"></i> {%trans "My Profile"%}</a>
      <a id="profile-changepass" href="{{url.protocol}}://{{url.raw}}/account/changepass?cp=1&from=cp" target="_blank"><i class="fa fa-exchange"></i> {%trans "Change Password"%}</a>
      <a id="profile-logout" href="{{url.protocol}}://{{url.raw}}/logout"><i class="fa fa-sign-out"></i> {%trans "Logout"%}</a>
     </nav>
@@ -174,7 +174,7 @@
 {%if perm.property.view%}
   <div>
 {%if perm.property.add%}
-   <ul id="prop-box-new" data-action="/$/propadd" data-method="post" delay='1000'>
+   <ul id="prop-box-new" data-action="{{url.base}}$/propadd" data-method="post" delay='1000'>
     <li class="row auto">
      <input type="text" name="name" class='span5' autocomplete="off" placeholder='{%trans "Name"%}'/>
      <input type="text" name="value" class='span6' autocomplete="off" placeholder='{%trans "Value"%}'/>
@@ -197,14 +197,14 @@
 
 {%if perm.tags.add%}
   <ul id="prop-box-tags">
-    <li class="row auto" id="tagInput" data-action="$/tagadd" data-method="post" data-delay='500'>
+    <li class="row auto" id="tagInput" data-action="{{url.base}}$/tagadd" data-method="post" data-delay='500'>
         <input type="text" id="tag-add" class='span8' autocomplete="off" placeholder='{%trans "Enter Tags"%}'/>
         <input type="button" id="tag-add-btn" class='span4 button' value={%trans "Add"%} tabindex="-1" />
         <textarea name="tags" id="sp-tags" class="sp-tags input" placeholder='{%trans "Enter Tags here"%}'>{{tagList}}</textarea>
     </li>
     <li class="row auto">
       <span class="span4">{%trans "Tags"%}<i class="fa fa-plus" tab-index="-1"></i></span>
-      <span class="span8" id="tag-list" data-action="$/tagremove" data-method="post" data-delay='500'>123 </span>
+      <span class="span8" id="tag-list" data-action="{{url.base}}$/tagremove" data-method="post" data-delay='500'>123 </span>
     </li>
   </ul>
 {%endif%}
@@ -256,7 +256,7 @@
    <div class='modal-footer buttons'>
     <a class='button negative' data-cancel>{%trans "Cancel"%}</a>
     <div class='or' data-text='{%trans "or"%}'></div>
-    <a class='button positive' data-ajaxify data-action="$/result" data-method="post" data-ok>{%trans "Submit"%}</a>
+    <a class='button positive' data-ajaxify data-action="{{url.base}}$/result" data-method="post" data-ok>{%trans "Submit"%}</a>
    </div>
   </div>
  </div>
