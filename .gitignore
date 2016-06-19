@@ -1,1 +1,8 @@
 *.DS_Store
+*sitemap.xml
+*Thumbs.db
+*.me.*
+/public_html/files
+/public_html/data
+/public_html/sitemap
+/public_html/merged
