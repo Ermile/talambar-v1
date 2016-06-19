@@ -20,7 +20,7 @@
       <span class='date hint--bottom ltr' data-hint="{{row.date}}">{{row.date | sdate('day')}}</span>
 {%if perm.favorites.add%}
       <span class="fav">
-        <i class="fa {{row.fav}}" data-action="/$/favorites" data-method="post"></i>
+        <i class="fa {{row.fav}}" data-action="{{url.base}}$/favorites" data-method="post"></i>
       </span>
 {%endif%}
     </li>
@@ -49,7 +49,7 @@
     <p class="alert alert-info fade">{%trans "List of tags used in your account"%}</p>
     <div id="tags-list">
     {%for key, row in tagstable%}
-     <a href="/$/tags?name={{row.url}}"><span>{{row.countuse}}</span>{{row.title}}</a>
+     <a href="{{url.base}}$/tags?name={{row.url}}"><span>{{row.countuse}}</span>{{row.title}}</a>
     {% endfor %}
     </div>
    {%else%}
@@ -76,5 +76,5 @@
 
 
 {%block properties%}
-  <ul id="prop-box-ul" data-action="$/prop" data-method="post"></ul>
+  <ul id="prop-box-ul" data-action="{{url.base}}$/prop" data-method="post"></ul>
 {%endblock%}
