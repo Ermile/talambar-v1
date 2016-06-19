@@ -82,6 +82,8 @@ $(document).ready(function()
 route('*', function()
 {
   CURRENTPATH = (location.pathname).replace(/^\/+/, '');
+  CURRENTPATH = window.location.protocol + "//" + window.location.host + "/" + CURRENTPATH;
+  // console.log(CURRENTPATH);
 
   // $(".light-gallery", this).lightGallery();
   var explorer = this instanceof Document ? $('#explorer') : $(this).parents('#explorer');
@@ -267,7 +269,6 @@ function ex_navigate(_self)
  */
 function reDraw(_path)
 {
-  _path = BASEURL + _path;
   ex_propHide();
   ex_hideOpr();
 
@@ -624,7 +625,7 @@ function ex_showProp()
                   var _prop = prop[p];
                   for (var pp in _prop)
                   {
-                    el_new = '<li class="row auto" data-action='+BASEURL+"$/propremove" data-method="post" data-id="' + p + '"><span class="span4">' + pp + ' <i class="fa fa-times"></i></span><span class="span8"> ' + _prop[pp] + ' </span></li>';
+                    el_new = '<li class="row auto" data-action='+BASEURL+'"$/propremove" data-method="post" data-id="' + p + '"><span class="span4">' + pp + ' <i class="fa fa-times"></i></span><span class="span8"> ' + _prop[pp] + ' </span></li>';
                     elements += el_new;
                   }
                 }
