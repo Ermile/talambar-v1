@@ -63,9 +63,8 @@ function ex_inputCreate(_type, _value, _item)
   var myOldValue     = _value? ' data-value="' + _value + '"': '';
   var myItem         = _type == 'rename'? '<input type="hidden" name="items" value ="' + _item + '" />': '';
 
-
   var myElement =
-    '<div id="edit-item" data-method="post" data-action="/$/' + _type + '" action="/$/' + _type + '">' +
+    '<div id="edit-item" data-method="post" data-action="'+ BASEURL+ '$/' + _type + '" action="'+ BASEURL + '$/' + _type + '">' +
       '<input id="item-new-name" type="text" name="fname" placeholder="Untitled Folder" ' + myDefaultValue + myOldValue + ' autocomplete="off" />' +
       myItem +
       '<button class="btn-fa-check"><i class="fa fa-check"></i></button>' +
