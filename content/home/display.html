@@ -9,7 +9,7 @@
      <h2>{{site.desc}}</h2>
     </header>
 {%if global.login%}
-   <a href="http://{{url.raw}}/files" data-direct class='button primary'>{%trans "Files"%}</a>
+   <a href="{{url.protocol}}://{{url.raw}}/files" data-direct class='button primary'>{%trans "Files"%}</a>
    <a href="{{url.MainService}}/logout" data-direct class='btnlogin button negative'>{%trans "Logout"%}</a>
 {%else%}
     <div class='buttons'>
