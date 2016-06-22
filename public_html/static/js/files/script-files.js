@@ -602,13 +602,13 @@ function ex_showProp()
               case 'thumb':
                 if ( ImageExist(myData[key]) )
                 {
-                  el_new = '<li class="media-container"><img src="' + myData[key] + '" /></li>';
+                  el_new = '<li class="media-container"><img src="/' + myData[key] + '" /></li>';
                 }
                 else
                 {
-                  myData[key] = 'static/images/error.png';
+                  myData[key] = '/static/images/error.png';
                   // var el_new = '<li class="media-container"><span class="fa-stack fa-lg fa-3x"><i class="fa fa-picture-o fa-stack-1x"></i><i class="fa fa-ban fa-stack-2x text-danger"></i></span></li>';
-                  el_new = '<li class="media-container"><img src="' + myData[key] + '" /></li>';
+                  el_new = '<li class="media-container"><img src="/' + myData[key] + '" /></li>';
                 }
                 elements = el_new + elements;
                 break;
@@ -623,7 +623,7 @@ function ex_showProp()
               // on video type create video element
               case 'audio':
               case 'video':
-                el_new = '<' + key + ' controls id="player"><source src="' + myData[ key ] + '" type="' + myData[ key +'-type'] + '"></' + key + '>';
+                el_new = '<' + key + ' controls id="player"><source src="/' + myData[ key ] + '" type="' + myData[ key +'-type'] + '"></' + key + '>';
                 elements = el_new + elements;
                 break;
 
