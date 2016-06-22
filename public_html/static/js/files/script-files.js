@@ -1,5 +1,6 @@
 // global variable definition
 var CURRENTPATH;
+var CURRENTDOMAIN;
 var CLIPBOARD;
 var STARTPATH;
 var BASEURL = window.location.protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[1] + "/";
@@ -81,9 +82,19 @@ $(document).ready(function()
  */
 route('*', function()
 {
-  CURRENTPATH = (location.pathname).replace(/^\/+/, '');
-  CURRENTPATH = window.location.protocol + "//" + window.location.host + "/" + CURRENTPATH;
-  // console.log(CURRENTPATH);
+  CURRENTDOMAIN = window.location.protocol + "//" + window.location.host + "/";
+  CURRENTPATH   = (location.pathname).replace(/^\/+/, '');
+  if(CURRENTPATH == undefined)
+  {
+    CURRENTPATH = "";
+  }
+  // if we use files as fake subdomain
+  if(CURRENTPATH.indexOf("files") > -1)
+  {
+    CURRENTDOMAIN = CURRENTDOMAIN + "files/";
+    CURRENTPATH   = CURRENTPATH.substring(6, CURRENTPATH.length);
+  }
+
 
   // $(".light-gallery", this).lightGallery();
   var explorer = this instanceof Document ? $('#explorer') : $(this).parents('#explorer');
@@ -253,10 +264,10 @@ function ex_navigate(_self)
   // redraw if new location and old one is different!
   if(CURRENTPATH !== newLocation)
   {
-    // console.log(CURRENTPATH);
-    // console.log(newLocation);
     if(newLocation.length == 0 )
+    {
       newLocation = '/';
+    }
     // redraw with new address
     reDraw(newLocation);
   }
@@ -273,11 +284,15 @@ function reDraw(_path)
   ex_hideOpr();
 
   $("#explorer ul").fadeOut(100);
-
   if (_path == undefined)
   {
-    _path = CURRENTPATH;
+    _path = '/'+CURRENTPATH;
   }
+  if(_path.indexOf("http") < 0)
+  {
+    _path = '/files' + _path;
+  }
+
   Navigate({ url: _path });
 }
 
