@@ -76,7 +76,7 @@
      </a>
     </li>
 {%endif%}
-{%if perm.apps.view%}
+{%if perm.apps.view and false%}
     <li id="send-to-app" class="hide">
       <a class="labeled icon button" data-step='36' data-intro2='{%trans "If you have a permission, you can send your files to an app and after process, if you want we can save result in file metadata"%}' data-position="bottom">
        <i class="icon fa fa-paper-plane-o"></i><span>{%trans "Send to app"%}</span>
