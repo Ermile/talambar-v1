@@ -2,7 +2,7 @@
 namespace database\talambar;
 class attachmentmetas
 {
-	public $id                    = ['null'=>'NO'  ,'show'=>'YES'     ,'label'=>'id'              ,'type'=>'int@10'];
+	public $id                    = ['null'=>'NO'  ,'show'=>'YES'     ,'label'=>'id'              ,'type'=>'bigint@20'];
 	public $attachment_id         = ['null'=>'NO'  ,'show'=>'YES'     ,'label'=>'attachment'      ,'type'=>'bigint@20'                       ,'foreign'=>'attachments@id!id'];
 	public $attachmentmeta_cat    = ['null'=>'NO'  ,'show'=>'YES'     ,'label'=>'cat'             ,'type'=>'varchar@50'];
 	public $attachmentmeta_key    = ['null'=>'NO'  ,'show'=>'YES'     ,'label'=>'key'             ,'type'=>'varchar@100'];
