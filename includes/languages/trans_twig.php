@@ -3,17 +3,23 @@ private function transtext()
 {
 
 	//-------------------------------------------------------content\home\display.html
+	echo T_("talambar logo");                                                         // Line 7
 	echo T_("Talambar");                                                              // Line 8
-	echo T_("Another cloud storage!");                                                // Line 9 Seperate
-	echo T_("Indeed we respect for privacy and try to providing maximum security for your files.");// Line 9 Seperate
-	echo T_("Learn more");                                                            // Line 12
-	echo T_("or");                                                                    // Line 258
-	echo T_("Signup");                                                                // Line 14
-	echo T_("Files");                                                                 // Line 20
+	echo T_("Powered by");                                                            // Line 10
+	echo T_("Saloos");                                                                // Line 10
+	echo T_("in");                                                                    // Line 10
+	echo T_("Ermile");                                                                // Line 10
+	echo T_("Files");                                                                 // Line 13
 	echo T_("Logout");                                                                // Line 124
+	echo T_("Learn more");                                                            // Line 18
+	echo T_("or");                                                                    // Line 258
+	echo T_("Signup");                                                                // Line 20
 	echo T_("Login");                                                                 // Line 23
-	echo T_("Security. Privacy. Simply.");                                            // Line 28
-	echo T_("Experience our service in your language");                               // Line 32
+	echo T_("Security. Privacy. Simply.");                                            // Line 27
+
+	//---------------------------------------------------content\template\dafault.html
+	echo T_("View your current location and navigate to parent of it");               // Line 160
+	echo T_("Some right reserved!");                                                  // Line 28
 
 	//-------------------------------------------------content_files\home\display.html
 	echo T_("Hello!");                                                                // Line 32
@@ -70,7 +76,6 @@ private function transtext()
 	echo T_("Show your account analytics");                                           // Line 149
 	echo T_("Options");                                                               // Line 151
 	echo T_("Access to Control Panel");                                               // Line 153
-	echo T_("View your current location and navigate to parent of it");               // Line 160
 	echo T_("your items like folder and files is show in this place");                // Line 166
 	echo T_("You can navigate between items with keyboard Up, Down, PageUp, PageDown, Home and End key.");// Line 166
 	echo T_("Also you can use Shift, Ctrl and Alt and we try to give you all functions that you need");// Line 166
