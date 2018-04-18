@@ -7,12 +7,12 @@
 
 // ** MySQL settings - You can get this info from your web host ** //
  /** The name of the database */
- define("db_name", 'talambar');
+ define("db_name", '__your_db__');
 
  /** MySQL database username */
- define("db_user", 'ermile');
+ define("db_user", '__your_user__');
 
  /** MySQL database password */
- define("db_pass", 'Ermile@#$1233');
+ define("db_pass", '__your_pass__');
 
 ?>
